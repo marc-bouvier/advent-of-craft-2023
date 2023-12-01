@@ -26,6 +26,9 @@ public record Food(LocalDate expirationDate,
 
 // What I did not :
 // - extract method for expiryDateNotPassed and wasInspected (premature in my opinion)
+// - change the test code as the exercise did not invited to do so
+// - Change public signature
+//   - Introduce value objects in argument (also seems premature) and lack of context (it might be a CRUD application with the record serialized as is)
 
 // 🤔 Not sure what UUID inspectorId stands for.
 // I did my own guess and decided that it was the inspector that approved the food.
