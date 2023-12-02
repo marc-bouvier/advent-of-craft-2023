@@ -7,18 +7,18 @@ fun convert(input: Int): String {
         throw OutOfRangeException()
     }
 
-    if (input <= 100) {
-        if (input % 3 == 0 && input % 5 == 0) {
-            return "FizzBuzz"
-        }
-        if (input % 3 == 0) {
-            return "Fizz"
-        }
-        return if (input % 5 == 0) {
-            "Buzz"
-        } else input.toString()
-    } else {
+    if (input > 100) {
         throw OutOfRangeException()
     }
+    if (input % 3 == 0 && input % 5 == 0) {
+        return "FizzBuzz"
+    }
+    if (input % 3 == 0) {
+        return "Fizz"
+    }
+    return if (input % 5 == 0) {
+        "Buzz"
+    } else input.toString()
+
 
 }
