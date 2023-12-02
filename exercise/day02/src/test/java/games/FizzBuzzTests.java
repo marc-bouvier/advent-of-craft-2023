@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+
 class FizzBuzzTests {
     @Test
     void returns_the_given_number_for_1() throws OutOfRangeException {
