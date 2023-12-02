@@ -8,11 +8,11 @@ import io.kotest.property.forAll
 import io.kotest.property.forNone
 
 class FizzBuzzProperties : StringSpec({
+
     "Multiples of 3 Fizzes" {
         forAll(Arb.multiple(k = 3, max = 100).filter { it > 0 }) {
             convert(it).contains("Fizz")
         }
-
     }
 
     "Multiples of 5 Buzzes" {
@@ -26,7 +26,6 @@ class FizzBuzzProperties : StringSpec({
             convert(it).contains("FizzBuzz")
         }
     }
-
 
     "Numbers non multiple of 3 or 5 are themselve" {
         forNone(Arb.int(min = 1, max = 100).filter { it % 3 == 0 && it % 5 == 0 }) {
