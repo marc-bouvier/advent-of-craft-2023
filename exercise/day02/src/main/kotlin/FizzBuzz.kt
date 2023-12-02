@@ -16,9 +16,10 @@ fun convert(input: Int): String {
         input % 3 == 0 -> {
             return "Fizz"
         }
-        else -> return if (input % 5 == 0) {
-            "Buzz"
-        } else input.toString()
+        input % 5 == 0-> {
+            return "Buzz"
+        }
+        else -> return input.toString()
     }
 
 
