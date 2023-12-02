@@ -3,22 +3,23 @@
 package games
 
 fun convert(input: Int): String {
-    if (input <= 0) {
-        throw OutOfRangeException()
+    when {
+        input <= 0 -> {
+            throw OutOfRangeException()
+        }
+        input > 100 -> {
+            throw OutOfRangeException()
+        }
+        input % 3 == 0 && input % 5 == 0 -> {
+            return "FizzBuzz"
+        }
+        input % 3 == 0 -> {
+            return "Fizz"
+        }
+        else -> return if (input % 5 == 0) {
+            "Buzz"
+        } else input.toString()
     }
-
-    if (input > 100) {
-        throw OutOfRangeException()
-    }
-    if (input % 3 == 0 && input % 5 == 0) {
-        return "FizzBuzz"
-    }
-    if (input % 3 == 0) {
-        return "Fizz"
-    }
-    return if (input % 5 == 0) {
-        "Buzz"
-    } else input.toString()
 
 
 }
