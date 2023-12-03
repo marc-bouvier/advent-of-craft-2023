@@ -1,10 +1,8 @@
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import org.assertj.core.api.Assertions
 import people.Person
 import people.Pet
 import people.PetType
-import java.util.*
 
 class PopulationTests : FunSpec({
     var population: List<Person>? = null
@@ -31,10 +29,16 @@ class PopulationTests : FunSpec({
     }
 
     test("whoOwnsTheYoungestPet") {
-        val filtered = population!!.stream().min(Comparator.comparingInt { person: Person ->
-            person.pets.stream().mapToInt { (_, _, age): Pet -> age }
-                .min().orElse(Int.MAX_VALUE)
-        }).orElse(null)!!
+        val filtered = population!!
+            .stream()
+            .min(
+                Comparator.comparingInt { person: Person ->
+                    person.pets
+                        .stream()
+                        .mapToInt { (_, _, age): Pet -> age }
+                        .min()
+                        .orElse(Int.MAX_VALUE)
+                }).orElse(null)!!
         filtered.firstName.shouldBe("Lois")
     }
 
