@@ -1,6 +1,7 @@
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import people.Person
+import people.Pet
 import people.PetType
 import java.util.*
 import kotlin.Int.Companion.MAX_VALUE
@@ -40,7 +41,7 @@ class PopulationTests : StringSpec({
 })
 
 fun Person.`youngest pet's age`() =
-    pets.minOfOrNull { pet -> pet.age }
+    pets.minOfOrNull(Pet::age)
 
 
 
