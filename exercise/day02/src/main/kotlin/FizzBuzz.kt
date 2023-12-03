@@ -2,11 +2,12 @@
 
 package games
 
-fun convert(input: Int): String = when {
-    input <= 0 || input > 100 -> throw OutOfRange()
-    input % 3 == 0 && input % 5 == 0 -> "FizzBuzz"
-    input % 3 == 0 -> "Fizz"
-    input % 5 == 0 -> "Buzz"
-    else -> "$input"
+fun convert(number: Int): String = when {
+    number <= 0 || number > 100 -> throw OutOfRange()
+    number `is multiple of` 3 && number `is multiple of` 5 -> "FizzBuzz"
+    number `is multiple of` 3 -> "Fizz"
+    number `is multiple of` 5 -> "Buzz"
+    else -> "$number"
 }
 
+infix fun Int.`is multiple of`(i: Int) = this % i == 0
