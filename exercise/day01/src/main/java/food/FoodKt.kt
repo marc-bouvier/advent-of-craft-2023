@@ -14,7 +14,7 @@ data class FoodKt(
 
     fun isEdible(now: () -> LocalDate): Boolean {
 
-        val expiryDateNotPassed = now.invoke().plus(1, DAY) < expirationDate
+        val expiryDateNotPassed = now.invoke().plus(1, DAY) <= expirationDate
         val wasInspected = inspectorId != null
 
         return expiryDateNotPassed && approvedForConsumption && wasInspected
