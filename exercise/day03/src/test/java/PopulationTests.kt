@@ -6,7 +6,9 @@ import people.PetType.*
 import kotlin.Int.Companion.MAX_VALUE
 
 class PopulationTests : StringSpec({
+
     lateinit var population: List<Person>
+
     beforeSpec {
         population = listOf(
             Person("Peter", "Griffin")
@@ -35,9 +37,7 @@ class PopulationTests : StringSpec({
             person.`youngest pet's age`()
                 ?: MAX_VALUE
         }
-
         ownerOfYoungestPet!!.firstName shouldBe "Lois"
-
     }
 })
 
