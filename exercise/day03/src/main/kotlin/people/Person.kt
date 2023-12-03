@@ -1,10 +1,9 @@
 package people
 
-@JvmRecord
 data class Person(
-    @JvmField val firstName: String,
-    @JvmField val lastName: String,
-    @JvmField val pets: MutableList<Pet>
+    val firstName: String,
+    val lastName: String,
+    val pets: MutableList<Pet>
 ) {
 
     constructor(firstName: String, lastName: String) :
