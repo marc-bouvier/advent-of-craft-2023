@@ -31,7 +31,7 @@ class PopulationTests : FunSpec({
 
     test("whoOwnsTheYoungestPet") {
         val filtered = population!!.stream().min(Comparator.comparingInt { person: Person ->
-            person!!.pets.stream().mapToInt { (_, _, age): Pet -> age }
+            person.pets.stream().mapToInt { (_, _, age): Pet -> age }
                 .min().orElse(Int.MAX_VALUE)
         }).orElse(null)!!
         Assertions.assertThat(filtered.firstName).isEqualTo("Lois")
