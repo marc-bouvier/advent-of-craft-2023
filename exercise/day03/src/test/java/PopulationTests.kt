@@ -34,7 +34,7 @@ class PopulationTests : FunSpec({
             .stream()
             .min(
                 Comparator.comparingInt { person: Person ->
-                    person.youngestPetsAge()
+                    person.`youngest pet's age`()
                         .orElse(Int.MAX_VALUE)
                 }).orElse(null)!!
         filtered.firstName.shouldBe("Lois")
@@ -43,7 +43,7 @@ class PopulationTests : FunSpec({
 
 })
 
-fun Person.youngestPetsAge(): OptionalInt = pets
+fun Person.`youngest pet's age`(): OptionalInt = pets
     .stream()
     .mapToInt(Pet::age)
     .min()
