@@ -3,6 +3,7 @@ import io.kotest.matchers.shouldBe
 import people.Person
 import people.Pet
 import people.PetType
+import java.util.*
 
 class PopulationTests : FunSpec({
     var population: List<Person>? = null
@@ -33,10 +34,7 @@ class PopulationTests : FunSpec({
             .stream()
             .min(
                 Comparator.comparingInt { person: Person ->
-                    person.pets
-                        .stream()
-                        .mapToInt { (_, _, age): Pet -> age }
-                        .min()
+                    person.youngestPetsAge()
                         .orElse(Int.MAX_VALUE)
                 }).orElse(null)!!
         filtered.firstName.shouldBe("Lois")
@@ -44,6 +42,11 @@ class PopulationTests : FunSpec({
 
 
 })
+
+fun Person.youngestPetsAge(): OptionalInt = pets
+    .stream()
+    .mapToInt(Pet::age)
+    .min()
 
 
 
