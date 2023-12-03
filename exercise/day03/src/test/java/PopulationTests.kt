@@ -1,4 +1,5 @@
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions
 import people.Person
 import people.Pet
@@ -34,7 +35,7 @@ class PopulationTests : FunSpec({
             person.pets.stream().mapToInt { (_, _, age): Pet -> age }
                 .min().orElse(Int.MAX_VALUE)
         }).orElse(null)!!
-        Assertions.assertThat(filtered.firstName).isEqualTo("Lois")
+        filtered.firstName.shouldBe("Lois")
     }
 
 
