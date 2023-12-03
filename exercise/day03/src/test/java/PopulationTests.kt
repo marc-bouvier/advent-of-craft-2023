@@ -31,13 +31,15 @@ class PopulationTests : StringSpec({
     }
 
     "Who owns the youngest pet" {
-        val ownerOfYoungestPet = population!!
+        population!!
             .minByOrNull { person ->
                 person.`youngest pet's age`()
                     .orElse(MAX_VALUE)
+            }.also { `youngest pet owner` ->
+                `youngest pet owner`!!.firstName shouldBe "Lois"
             }
 
-        ownerOfYoungestPet!!.firstName shouldBe "Lois"
+
     }
 
 
