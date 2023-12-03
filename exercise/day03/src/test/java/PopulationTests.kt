@@ -1,7 +1,6 @@
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import people.Person
-import people.Pet
 import people.PetType
 import java.util.*
 import kotlin.Int.Companion.MAX_VALUE
@@ -31,24 +30,17 @@ class PopulationTests : StringSpec({
     }
 
     "Who owns the youngest pet" {
-        population
-            .minByOrNull { person ->
-                person.`youngest pet's age`()
-                    .orElse(MAX_VALUE)
-            }.also { `youngest pet owner` ->
-                `youngest pet owner`!!.firstName shouldBe "Lois"
-            }
-
-
+        population.minByOrNull { person ->
+            person.`youngest pet's age`()
+                ?: MAX_VALUE
+        }.also { `youngest pet owner` ->
+            `youngest pet owner`!!.firstName shouldBe "Lois"
+        }
     }
-
-
 })
 
-fun Person.`youngest pet's age`(): OptionalInt = pets
-    .stream()
-    .mapToInt(Pet::age)
-    .min()
+fun Person.`youngest pet's age`() =
+    pets.minOfOrNull { pet -> pet.age }
 
 
 
