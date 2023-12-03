@@ -1,15 +1,11 @@
-package people;
+package people
 
-import java.util.ArrayList;
-import java.util.List;
+@JvmRecord
+data class Person(@JvmField val firstName: String?, val lastName: String?, @JvmField val pets: MutableList<Pet?>) {
+    constructor(firstName: String?, lastName: String?) : this(firstName, lastName, ArrayList<Pet?>())
 
-public record Person(String firstName, String lastName, List<Pet> pets) {
-    public Person(String firstName, String lastName) {
-        this(firstName, lastName, new ArrayList<>());
-    }
-
-    public Person addPet(PetType petType, String name, int age) {
-        pets.add(new Pet(petType, name, age));
-        return this;
+    fun addPet(petType: PetType?, name: String?, age: Int): Person {
+        pets.add(Pet(petType, name, age))
+        return this
     }
 }
