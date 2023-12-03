@@ -6,7 +6,7 @@ import people.PetType
 import java.util.*
 
 class PopulationTests : FunSpec({
-    var population: List<Person?>? = null
+    var population: List<Person>? = null
     beforeSpec {
         population = listOf(
             Person("Peter", "Griffin")
