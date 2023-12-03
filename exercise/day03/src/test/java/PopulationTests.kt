@@ -2,7 +2,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import people.Person
 import people.Pet
-import people.PetType
+import people.PetType.*
 import kotlin.Int.Companion.MAX_VALUE
 
 class PopulationTests : StringSpec({
@@ -10,21 +10,21 @@ class PopulationTests : StringSpec({
     beforeSpec {
         population = listOf(
             Person("Peter", "Griffin")
-                .addPet(PetType.CAT, "Tabby", 2),
+                .addPet(CAT, "Tabby", 2),
             Person("Stewie", "Griffin")
-                .addPet(PetType.CAT, "Dolly", 3)
-                .addPet(PetType.DOG, "Brian", 9),
+                .addPet(CAT, "Dolly", 3)
+                .addPet(DOG, "Brian", 9),
             Person("Joe", "Swanson")
-                .addPet(PetType.DOG, "Spike", 4),
+                .addPet(DOG, "Spike", 4),
             Person("Lois", "Griffin")
-                .addPet(PetType.SNAKE, "Serpy", 1),
+                .addPet(SNAKE, "Serpy", 1),
             Person("Meg", "Griffin")
-                .addPet(PetType.BIRD, "Tweety", 1),
+                .addPet(BIRD, "Tweety", 1),
             Person("Chris", "Griffin")
-                .addPet(PetType.TURTLE, "Speedy", 4),
+                .addPet(TURTLE, "Speedy", 4),
             Person("Cleveland", "Brown")
-                .addPet(PetType.HAMSTER, "Fuzzy", 1)
-                .addPet(PetType.HAMSTER, "Wuzzy", 2),
+                .addPet(HAMSTER, "Fuzzy", 1)
+                .addPet(HAMSTER, "Wuzzy", 2),
             Person("Glenn", "Quagmire")
         )
     }
