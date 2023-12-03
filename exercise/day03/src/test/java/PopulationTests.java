@@ -44,9 +44,9 @@ class PopulationTests {
 
     @Test
     void whoOwnsTheYoungestPet() {
-        var filtered = population.stream().min(Comparator.comparingInt(person -> person.pets().stream().mapToInt(Pet::age).min().orElse(Integer.MAX_VALUE))).orElse(null);
+        var filtered = population.stream().min(Comparator.comparingInt(person -> person.pets.stream().mapToInt(Pet::age).min().orElse(Integer.MAX_VALUE))).orElse(null);
 
         assert filtered != null;
-        assertThat(filtered.firstName()).isEqualTo("Lois");
+        assertThat(filtered.firstName).isEqualTo("Lois");
     }
 }
