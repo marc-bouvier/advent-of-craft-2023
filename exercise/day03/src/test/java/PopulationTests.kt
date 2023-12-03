@@ -40,7 +40,7 @@ class PopulationTests : FunSpec({
                 }
             ).orElse(null)!!
 
-        ownerOfYoungestPet.firstName.shouldBe("Lois")
+        ownerOfYoungestPet.firstName shouldBe "Lois"
     }
 
 
