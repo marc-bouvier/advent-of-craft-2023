@@ -8,7 +8,7 @@ import java.util.*
 class PopulationTests : FunSpec({
     var population: List<Person?>? = null
     beforeSpec {
-        population = Arrays.asList(
+        population = listOf(
             Person("Peter", "Griffin")
                 .addPet(PetType.CAT, "Tabby", 2),
             Person("Stewie", "Griffin")
