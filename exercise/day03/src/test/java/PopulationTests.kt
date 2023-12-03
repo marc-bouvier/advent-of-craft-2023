@@ -7,7 +7,7 @@ import java.util.*
 import kotlin.Int.Companion.MAX_VALUE
 
 class PopulationTests : StringSpec({
-    var population: List<Person>? = null
+    lateinit var population: List<Person>
     beforeSpec {
         population = listOf(
             Person("Peter", "Griffin")
@@ -31,7 +31,7 @@ class PopulationTests : StringSpec({
     }
 
     "Who owns the youngest pet" {
-        population!!
+        population
             .minByOrNull { person ->
                 person.`youngest pet's age`()
                     .orElse(MAX_VALUE)
