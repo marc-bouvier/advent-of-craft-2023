@@ -1,5 +1,10 @@
-package people;
+package people
 
-public enum PetType {
-    CAT, DOG, HAMSTER, TURTLE, BIRD, SNAKE
+enum class PetType {
+    CAT,
+    DOG,
+    HAMSTER,
+    TURTLE,
+    BIRD,
+    SNAKE
 }
