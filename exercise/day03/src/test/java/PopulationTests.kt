@@ -4,6 +4,7 @@ import people.Person
 import people.Pet
 import people.PetType
 import java.util.*
+import kotlin.Int.Companion.MAX_VALUE
 
 class PopulationTests : FunSpec({
     var population: List<Person>? = null
@@ -35,8 +36,10 @@ class PopulationTests : FunSpec({
             .min(
                 Comparator.comparingInt { person: Person ->
                     person.`youngest pet's age`()
-                        .orElse(Int.MAX_VALUE)
-                }).orElse(null)!!
+                        .orElse(MAX_VALUE)
+                }
+            ).orElse(null)!!
+
         filtered.firstName.shouldBe("Lois")
     }
 
