@@ -31,7 +31,7 @@ class PopulationTests : FunSpec({
     }
 
     test("whoOwnsTheYoungestPet") {
-        val filtered = population!!
+        val ownerOfYoungestPet = population!!
             .stream()
             .min(
                 compareBy { person ->
@@ -40,7 +40,7 @@ class PopulationTests : FunSpec({
                 }
             ).orElse(null)!!
 
-        filtered.firstName.shouldBe("Lois")
+        ownerOfYoungestPet.firstName.shouldBe("Lois")
     }
 
 
