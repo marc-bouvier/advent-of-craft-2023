@@ -7,7 +7,7 @@ data class Person(
 ) {
 
     constructor(firstName: String, lastName: String) :
-            this(firstName, lastName, ArrayList<Pet>())
+            this(firstName, lastName, mutableListOf())
 
     fun addPet(petType: PetType, name: String, age: Int): Person {
         pets.add(Pet(petType, name, age))
