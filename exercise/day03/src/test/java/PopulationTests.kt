@@ -41,7 +41,7 @@ class PopulationTests : StringSpec({
     }
 })
 
-fun Person.youngestPetsAge() =
+fun Person.youngestPetsAge(): Int? =
     pets.minOfOrNull(Pet::age)
 
 
