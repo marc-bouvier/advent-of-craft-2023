@@ -40,8 +40,8 @@ class FoodProperties : StringSpec({
         forAll(Arb.localDate(maxDate = expirationDate.minus(1, DAY).toJava())) { now ->
             FoodKt(
                 expirationDate,
-                true,
-                UUID.randomUUID()
+                approvedForConsumption = true,
+                inspectorId = UUID.randomUUID()
             ).isEdible { now.toKotlin() }
         }
     }
@@ -49,11 +49,12 @@ class FoodProperties : StringSpec({
     "FoodKt is not edible from expiration date" {
         val expirationDate = LocalDate(2023, 12, 24)
         forAll(Arb.localDate(minDate = expirationDate.toJava())) { now ->
-            Food(
-                expirationDate.toJava(),
-                true,
-                UUID.randomUUID()
-            ).isEdible { now }.not()
+            FoodKt(
+                expirationDate,
+                approvedForConsumption = true,
+                inspectorId = UUID.randomUUID()
+
+            ).isEdible { now.toKotlin() }.not()
         }
     }
 
