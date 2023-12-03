@@ -1,4 +1,4 @@
-package people;
+package people
 
-public record Pet(PetType type, String name, int age) {
-}
+@JvmRecord
+data class Pet(val type: PetType, val name: String, @JvmField val age: Int)
