@@ -34,8 +34,7 @@ class PopulationTests : FunSpec({
         val filtered = population!!
             .stream()
             .min(
-                compareBy
-                 { person: Person ->
+                compareBy { person: Person ->
                     person.`youngest pet's age`()
                         .orElse(MAX_VALUE)
                 }
