@@ -1,4 +1,3 @@
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import people.Person
