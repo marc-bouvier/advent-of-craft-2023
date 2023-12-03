@@ -1,4 +1,5 @@
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import people.Person
 import people.Pet
@@ -6,7 +7,7 @@ import people.PetType
 import java.util.*
 import kotlin.Int.Companion.MAX_VALUE
 
-class PopulationTests : FunSpec({
+class PopulationTests : StringSpec({
     var population: List<Person>? = null
     beforeSpec {
         population = listOf(
@@ -30,7 +31,7 @@ class PopulationTests : FunSpec({
         )
     }
 
-    test("whoOwnsTheYoungestPet") {
+    "Who owns the youngest pet" {
         val ownerOfYoungestPet = population!!
             .stream()
             .min(
