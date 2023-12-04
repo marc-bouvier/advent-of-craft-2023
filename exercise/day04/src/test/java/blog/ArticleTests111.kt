@@ -23,9 +23,9 @@ internal class ArticleTests {
         )
         val text = "Amazing article !!!"
         article.addComment(text, "Pablo Escobar")
-        Assertions.assertThat(article.comments)
+        Assertions.assertThat(article.getComments())
             .hasSize(1)
-            .anyMatch { comment: Comment? -> comment.text == text }
+            .anyMatch { comment: Comment? -> comment?.text == text }
     }
 
     @Test
@@ -37,9 +37,9 @@ internal class ArticleTests {
         )
         val author = "Pablo Escobar"
         article.addComment("Amazing article !!!", author)
-        Assertions.assertThat(article.comments)
+        Assertions.assertThat(article.getComments())
             .hasSize(1)
-            .anyMatch { comment: Comment? -> comment.author == author }
+            .anyMatch { comment: Comment? -> comment?.author == author }
     }
 
     @Test
