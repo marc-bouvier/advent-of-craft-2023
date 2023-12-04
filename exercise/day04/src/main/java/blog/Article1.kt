@@ -2,8 +2,8 @@ package blog
 
 import java.time.LocalDate
 
-class Article(private val name: String?, private val content: String?) {
-    private val comments: ArrayList<Comment?>?
+class Article(private val name: String, private val content: String) {
+    private val comments: MutableList<Comment>
 
     init {
         comments = ArrayList()
@@ -11,9 +11,9 @@ class Article(private val name: String?, private val content: String?) {
 
     @Throws(CommentAlreadyExistException::class)
     private fun addComment(
-        text: String?,
-        author: String?,
-        creationDate: LocalDate?
+        text: String,
+        author: String,
+        creationDate: LocalDate
     ) {
         val comment = Comment(text, author, creationDate)
         if (comments.contains(comment)) {
@@ -22,11 +22,11 @@ class Article(private val name: String?, private val content: String?) {
     }
 
     @Throws(CommentAlreadyExistException::class)
-    fun addComment(text: String?, author: String?) {
+    fun addComment(text: String, author: String) {
         addComment(text, author, LocalDate.now())
     }
 
-    fun getComments(): MutableList<Comment?>? {
-        return comments
+    fun getComments(): List<Comment> {
+        return comments.toList()
     }
 }
