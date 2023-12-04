@@ -11,10 +11,7 @@ class ArticleTests : StringSpec({
     // No assertion
     "It should add valid comment" {
         shouldNotThrowAny {
-            val article = Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-            )
+            val article = article()
             article.addComment("Amazing article !!!", "Pablo Escobar")
         }
     }
@@ -23,10 +20,7 @@ class ArticleTests : StringSpec({
     // - adding an article
     // - text of the content
     "It should add a comment with the given text" {
-        val article = Article(
-            "Lorem Ipsum",
-            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        )
+        val article = anArticle()
         val text = "Amazing article !!!"
         article.addComment(text, "Pablo Escobar")
 
@@ -37,10 +31,7 @@ class ArticleTests : StringSpec({
     // - adding an article (already asserted)
     // - author of the content
     "It should add a comment with the given author" {
-        val article = Article(
-            "Lorem Ipsum",
-            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        )
+        val article = anArticle()
         val author = "Pablo Escobar"
         article.addComment("Amazing article !!!", author)
 
@@ -50,10 +41,7 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val article = Article(
-            "Lorem Ipsum",
-            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        )
+        val article = anArticle()
         shouldNotThrowAny {
             article.addComment("Amazing article !!!", "Pablo Escobar")
         }
@@ -61,15 +49,22 @@ class ArticleTests : StringSpec({
 
     // The behavior should be understandable by the business folks
     "It should throw an exception when adding existing comment" {
-        val article = Article(
-            "Lorem Ipsum",
-            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        )
+        val article = anArticle()
         article.addComment("Amazing article !!!", "Pablo Escobar")
         shouldThrow<CommentAlreadyExist> {
             article.addComment("Amazing article !!!", "Pablo Escobar")
         }
     }
 })
+
+private fun article(): Article {
+    val article = anArticle()
+    return article
+}
+
+private fun anArticle() = Article(
+    "Lorem Ipsum",
+    "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+)
 
 
