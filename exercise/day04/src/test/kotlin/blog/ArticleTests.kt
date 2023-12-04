@@ -9,6 +9,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 class ArticleTests : StringSpec({
 
     // No assertion
+    // What means "valid comment"? Are there invalid comments?
     "It should add valid comment" {
             val article = anArticle()
             article.addComment("Amazing article !!!", "Pablo Escobar")
