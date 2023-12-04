@@ -6,7 +6,7 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlinx.datetime.*
 import test.utilities.SpyClock
-import test.utilities.TimeContext
+import time.TimeContext
 import test.utilities.now
 import test.utilities.timeZone
 
@@ -50,7 +50,7 @@ class ArticleTests : StringSpec({
         val article = anArticle(time)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == time.nowAsLocalDate() }
+        article.getComments() shouldHaveSingleElement { it.creationDate == time.today() }
     }
 
     // The behavior should be understandable by the business folks
@@ -69,7 +69,6 @@ private fun anArticle(timeContext: TimeContext = TimeContext(Clock.System, TimeZ
     return Article(
         "Lorem Ipsum",
         "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-        timeContext.clock,
-        timeContext.timeZone
+        timeContext
     )
 }
