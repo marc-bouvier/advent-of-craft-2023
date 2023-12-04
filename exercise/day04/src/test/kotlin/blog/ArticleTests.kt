@@ -61,24 +61,6 @@ class ArticleTests : StringSpec({
     }
 })
 
-private fun now() = Instant.parse("2023-12-06T21:57:43.145Z")
-
-fun Instant.toLocalDate(timeZone: TimeZone): LocalDate {
-    val localDateTime = this.toLocalDateTime(timeZone)
-    val localDate = LocalDate(localDateTime.year, localDateTime.month, localDateTime.dayOfMonth)
-    return localDate
-}
-
-class SpyClock(private val now: Instant) : Clock {
-    override fun now(): Instant {
-        return now
-    }
-}
-
-data class TimeContext(val clock: Clock, val timeZone: TimeZone) {
-    fun nowAsLocalDate(): LocalDate = clock.now().toLocalDate(timeZone)
-}
-
 private fun anArticle(timeContext: TimeContext = TimeContext(Clock.System, TimeZone.currentSystemDefault())): Article {
     return Article(
         "Lorem Ipsum",
@@ -88,6 +70,23 @@ private fun anArticle(timeContext: TimeContext = TimeContext(Clock.System, TimeZ
     )
 }
 
+data class TimeContext(val clock: Clock, val timeZone: TimeZone) {
+    fun nowAsLocalDate(): LocalDate = clock.now().toLocalDate(timeZone)
+}
+
 private fun timeZone() = TimeZone.currentSystemDefault()
+
+fun Instant.toLocalDate(timeZone: TimeZone): LocalDate {
+    val localDateTime = this.toLocalDateTime(timeZone)
+    return LocalDate(localDateTime.year, localDateTime.month, localDateTime.dayOfMonth)
+}
+
+class SpyClock(private val now: Instant) : Clock {
+    override fun now(): Instant {
+        return now
+    }
+}
+
+private fun now(isoString: String = "2023-12-06T21:57:43.145Z") = Instant.parse(isoString)
 
 
