@@ -11,7 +11,7 @@ class ArticleTests : StringSpec({
     // No assertion
     "It should add valid comment" {
         shouldNotThrowAny {
-            val article = article()
+            val article = anArticle()
             article.addComment("Amazing article !!!", "Pablo Escobar")
         }
     }
@@ -64,10 +64,6 @@ class ArticleTests : StringSpec({
     }
 })
 
-private fun article(): Article {
-    val article = anArticle()
-    return article
-}
 
 private fun anArticle() = Article(
     "Lorem Ipsum",
