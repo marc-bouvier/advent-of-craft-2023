@@ -9,7 +9,7 @@ import kotlinx.datetime.todayIn
 class Article(
     private val name: String,
     private val content: String,
-    clock: Clock
+    private val clock: Clock
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 
@@ -22,7 +22,6 @@ class Article(
     }
 
     fun addComment(text: String, author: String) {
-        val clock:Clock = Clock.System
         addComment(text, author, clock.todayIn(TimeZone.currentSystemDefault()))
     }
 
