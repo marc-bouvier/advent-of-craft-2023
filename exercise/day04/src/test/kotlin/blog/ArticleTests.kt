@@ -21,10 +21,9 @@ class ArticleTests : StringSpec({
     // - text of the content
     "It should add a comment with the given text" {
         val article = anArticle()
-        val text = "Amazing article !!!"
-        article.addComment(text, "Pablo Escobar")
+        article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
 
-        article.getComments() shouldHaveSingleElement { it.text == text }
+        article.getComments() shouldHaveSingleElement { it.text == "Amazing article !!!" }
     }
 
     // Asserts 2 things :
