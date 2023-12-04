@@ -3,11 +3,7 @@ package blog
 import java.time.LocalDate
 
 class Article(private val name: String, private val content: String) {
-    private val comments: MutableList<Comment>
-
-    init {
-        comments = ArrayList()
-    }
+    private val comments: MutableList<Comment> = mutableListOf()
 
     @Throws(CommentAlreadyExistException::class)
     private fun addComment(
