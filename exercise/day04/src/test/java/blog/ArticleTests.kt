@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class ArticleTests {
     @Test
-    @Throws(CommentAlreadyExistException::class)
+    @Throws(CommentAlreadyExist::class)
     fun it_should_add_valid_comment() {
         val article = Article(
             "Lorem Ipsum",
@@ -15,7 +15,7 @@ internal class ArticleTests {
     }
 
     @Test
-    @Throws(CommentAlreadyExistException::class)
+    @Throws(CommentAlreadyExist::class)
     fun it_should_add_a_comment_with_the_given_text() {
         val article = Article(
             "Lorem Ipsum",
@@ -29,7 +29,7 @@ internal class ArticleTests {
     }
 
     @Test
-    @Throws(CommentAlreadyExistException::class)
+    @Throws(CommentAlreadyExist::class)
     fun it_should_add_a_comment_with_the_given_author() {
         val article = Article(
             "Lorem Ipsum",
@@ -43,7 +43,7 @@ internal class ArticleTests {
     }
 
     @Test
-    @Throws(CommentAlreadyExistException::class)
+    @Throws(CommentAlreadyExist::class)
     fun it_should_add_a_comment_with_the_date_of_the_day() {
         val article = Article(
             "Lorem Ipsum",
@@ -53,7 +53,7 @@ internal class ArticleTests {
     }
 
     @Test
-    @Throws(CommentAlreadyExistException::class)
+    @Throws(CommentAlreadyExist::class)
     fun it_should_throw_an_exception_when_adding_existing_comment() {
         val article = Article(
             "Lorem Ipsum",
@@ -61,7 +61,7 @@ internal class ArticleTests {
         )
         article.addComment("Amazing article !!!", "Pablo Escobar")
         Assertions.assertThatThrownBy { article.addComment("Amazing article !!!", "Pablo Escobar") }.isInstanceOf(
-            CommentAlreadyExistException::class.java
+            CommentAlreadyExist::class.java
         )
     }
 }

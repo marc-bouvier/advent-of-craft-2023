@@ -12,7 +12,7 @@ class Article(
 
         val comment = Comment(text, author, creationDate)
         if (comments.contains(comment)) {
-            throw CommentAlreadyExistException()
+            throw CommentAlreadyExist()
         } else comments.add(comment)
     }
 
