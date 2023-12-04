@@ -23,7 +23,7 @@ class Article(
         addComment(text, author, clock.todayAsLocalDate())
     }
 
-    fun getComments(): List<Comment> {
+    fun comments(): List<Comment> {
         return comments.toList()
     }
 }

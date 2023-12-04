@@ -4,8 +4,6 @@ import kotlinx.datetime.*
 
 fun timeZone() = TimeZone.currentSystemDefault()
 
-
-
 class SpyClock(private val now: Instant) : Clock {
     override fun now(): Instant {
         return now
