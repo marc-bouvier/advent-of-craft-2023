@@ -5,7 +5,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSingleElement
 
-
 class ArticleTests : StringSpec({
 
     // No assertion
@@ -20,7 +19,6 @@ class ArticleTests : StringSpec({
     // - adding an article
     // - text of the content
     "It should add a comment with the given text" {
-
         val article = anArticle()
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
@@ -32,18 +30,15 @@ class ArticleTests : StringSpec({
     // - adding an article (already asserted)
     // - author of the content
     "It should add a comment with the given author" {
-
         val article = anArticle()
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
 
         article.getComments() shouldHaveSingleElement { it.author == "Pablo Escobar" }
-
     }
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-
         val article = anArticle()
 
         shouldNotThrowAny {
@@ -53,7 +48,6 @@ class ArticleTests : StringSpec({
 
     // The behavior should be understandable by the business folks
     "It should throw an exception when adding existing comment" {
-
         val article = anArticle()
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
