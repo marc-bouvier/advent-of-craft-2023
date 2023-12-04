@@ -1,6 +1,5 @@
 package blog
 
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSingleElement
@@ -43,14 +42,12 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val now = Instant.parse("2023-12-06T21:57:43.145Z")
-        val timeZone = TimeZone.currentSystemDefault()
-        val localDateTime = now.toLocalDateTime(timeZone)
-        val localDate = LocalDate(localDateTime.year,localDateTime.month,localDateTime.dayOfMonth)
+        val now = now()
+        val timeZone = timeZone()
         val article = anArticle(clock = SpyClock(now), timeZone = timeZone)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == localDate}
+        article.getComments() shouldHaveSingleElement { it.creationDate == now.toLocalDate(timeZone) }
     }
 
     // The behavior should be understandable by the business folks
@@ -65,6 +62,14 @@ class ArticleTests : StringSpec({
     }
 })
 
+private fun now() = Instant.parse("2023-12-06T21:57:43.145Z")
+
+fun Instant.toLocalDate(timeZone: TimeZone): LocalDate {
+    val localDateTime = this.toLocalDateTime(timeZone)
+    val localDate = LocalDate(localDateTime.year, localDateTime.month, localDateTime.dayOfMonth)
+    return localDate
+}
+
 class SpyClock(private val now: Instant) : Clock {
     override fun now(): Instant {
         return now
@@ -72,7 +77,7 @@ class SpyClock(private val now: Instant) : Clock {
 }
 
 
-private fun anArticle(clock: Clock = Clock.System, timeZone: TimeZone = TimeZone.currentSystemDefault()): Article {
+private fun anArticle(clock: Clock = Clock.System, timeZone: TimeZone = timeZone()): Article {
     return Article(
         "Lorem Ipsum",
         "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
@@ -80,5 +85,7 @@ private fun anArticle(clock: Clock = Clock.System, timeZone: TimeZone = TimeZone
         timeZone
     )
 }
+
+private fun timeZone() = TimeZone.currentSystemDefault()
 
 
