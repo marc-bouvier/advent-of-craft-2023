@@ -50,7 +50,7 @@ class ArticleTests : StringSpec({
         val article = anArticle(time)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == time.today() }
+        article.getComments() shouldHaveSingleElement { it.creationDate == time.todayAsLocalDate() }
     }
 
     // The behavior should be understandable by the business folks
