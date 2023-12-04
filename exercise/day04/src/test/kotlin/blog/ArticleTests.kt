@@ -54,7 +54,7 @@ class ArticleTests : StringSpec({
     }
 
     // The behavior should be understandable by the business folks
-    "It should throw an exception when adding existing comment" {
+    "Cannot add the same comment twice" {
         val article = anArticle()
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
