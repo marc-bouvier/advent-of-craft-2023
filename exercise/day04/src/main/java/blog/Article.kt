@@ -5,7 +5,6 @@ import java.time.LocalDate
 class Article(private val name: String, private val content: String) {
     private val comments: MutableList<Comment> = mutableListOf()
 
-    @Throws(CommentAlreadyExistException::class)
     private fun addComment(
         text: String,
         author: String,
@@ -17,7 +16,6 @@ class Article(private val name: String, private val content: String) {
         } else comments.add(comment)
     }
 
-    @Throws(CommentAlreadyExistException::class)
     fun addComment(text: String, author: String) {
         addComment(text, author, LocalDate.now())
     }
