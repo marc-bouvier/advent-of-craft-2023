@@ -24,6 +24,6 @@ class Article(
     }
 
     fun comments(): List<Comment> {
-        return comments.toList()
+        return comments.toList() // immutable list
     }
 }
