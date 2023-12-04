@@ -8,6 +8,7 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 
 class ArticleTests : StringSpec({
 
+    // No assertion
     "It should add valid comment" {
         shouldNotThrowAny {
             val article = Article(
@@ -18,6 +19,9 @@ class ArticleTests : StringSpec({
         }
     }
 
+    // Asserts 2 things :
+    // - adding an article
+    // - text of the content
     "It should add a comment with the given text" {
         val article = Article(
             "Lorem Ipsum",
@@ -29,6 +33,9 @@ class ArticleTests : StringSpec({
         article.getComments() shouldHaveSingleElement { it.text == text }
     }
 
+    // Asserts 2 things :
+    // - adding an article (already asserted)
+    // - author of the content
     "It should add a comment with the given author" {
         val article = Article(
             "Lorem Ipsum",
@@ -41,6 +48,7 @@ class ArticleTests : StringSpec({
 
     }
 
+    // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
         val article = Article(
             "Lorem Ipsum",
@@ -51,6 +59,7 @@ class ArticleTests : StringSpec({
         }
     }
 
+    // The behavior should be understandable by the business folks
     "It should throw an exception when adding existing comment" {
         val article = Article(
             "Lorem Ipsum",
