@@ -20,7 +20,7 @@ class Article(
     }
 
     fun addComment(text: String, author: String) {
-        addComment(text, author, time.today())
+        addComment(text, author, time.todayAsLocalDate())
     }
 
     fun getComments(): List<Comment> {
