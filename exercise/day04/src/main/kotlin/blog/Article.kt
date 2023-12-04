@@ -1,10 +1,15 @@
 package blog
 
-import java.time.LocalDate
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.todayIn
+
 
 class Article(
     private val name: String,
-    private val content: String
+    private val content: String,
+    clock: Clock
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 
@@ -17,7 +22,8 @@ class Article(
     }
 
     fun addComment(text: String, author: String) {
-        addComment(text, author, LocalDate.now())
+        val clock:Clock = Clock.System
+        addComment(text, author, clock.todayIn(TimeZone.currentSystemDefault()))
     }
 
     fun getComments(): List<Comment> {
