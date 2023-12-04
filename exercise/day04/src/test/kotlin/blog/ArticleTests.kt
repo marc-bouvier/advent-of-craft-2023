@@ -4,15 +4,16 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSingleElement
+import io.kotest.matchers.collections.shouldHaveSize
 
 class ArticleTests : StringSpec({
 
     // No assertion
     "It should add valid comment" {
-        shouldNotThrowAny {
             val article = anArticle()
             article.addComment("Amazing article !!!", "Pablo Escobar")
-        }
+
+        article.getComments() shouldHaveSize 1
     }
 
     // Asserts 2 things :
