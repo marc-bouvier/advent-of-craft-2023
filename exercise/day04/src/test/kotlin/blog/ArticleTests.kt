@@ -9,8 +9,6 @@ import test.utilities.SpyClock
 import test.utilities.now
 import test.utilities.timeZone
 import time.TimeZonedClock
-
-
 class `An article` : StringSpec({
 
     "can be commented" {
@@ -18,7 +16,7 @@ class `An article` : StringSpec({
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
 
-        article.getComments() shouldHaveSingleElement {
+        article.comments() shouldHaveSingleElement {
             it.text == "Amazing article !!!"
                     && it.author == "Pablo Escobar"
         }
@@ -30,7 +28,7 @@ class `An article` : StringSpec({
         val article = anArticle(time)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == time.todayAsLocalDate() }
+        article.comments() shouldHaveSingleElement { it.creationDate == time.todayAsLocalDate() }
     }
 
     // The behavior should be understandable by the business folks
@@ -44,6 +42,8 @@ class `An article` : StringSpec({
         }
     }
 })
+
+
 
 private fun anArticle(
     timeZonedClock: TimeZonedClock = TimeZonedClock(
