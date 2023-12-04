@@ -42,11 +42,11 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val timeContext = TimeContext(SpyClock(now()), timeZone())
-        val article = anArticle(timeContext)
+        val time = TimeContext(SpyClock(now()), timeZone())
+        val article = anArticle(time)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == timeContext.nowAsLocalDate() }
+        article.getComments() shouldHaveSingleElement { it.creationDate == time.nowAsLocalDate() }
     }
 
     // The behavior should be understandable by the business folks
