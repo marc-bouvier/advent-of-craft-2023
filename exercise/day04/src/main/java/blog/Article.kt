@@ -8,11 +8,8 @@ class Article(
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 
-    private fun addComment(
-        text: String,
-        author: String,
-        creationDate: LocalDate
-    ) {
+    private fun addComment(text: String, author: String, creationDate: LocalDate) {
+
         val comment = Comment(text, author, creationDate)
         if (comments.contains(comment)) {
             throw CommentAlreadyExistException()
