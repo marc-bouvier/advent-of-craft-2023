@@ -42,12 +42,11 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val now = now()
-        val timeZone = timeZone()
-        val article = anArticle(clock = SpyClock(now), timeZone = timeZone)
+        val timeContext = TimeContext(SpyClock(now()), timeZone())
+        val article = anArticle(timeContext)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        article.getComments() shouldHaveSingleElement { it.creationDate == now.toLocalDate(timeZone) }
+        article.getComments() shouldHaveSingleElement { it.creationDate == timeContext.nowAsLocalDate() }
     }
 
     // The behavior should be understandable by the business folks
@@ -76,13 +75,16 @@ class SpyClock(private val now: Instant) : Clock {
     }
 }
 
+data class TimeContext(val clock: Clock, val timeZone: TimeZone) {
+    fun nowAsLocalDate(): LocalDate = clock.now().toLocalDate(timeZone)
+}
 
-private fun anArticle(clock: Clock = Clock.System, timeZone: TimeZone = timeZone()): Article {
+private fun anArticle(timeContext: TimeContext = TimeContext(Clock.System, TimeZone.currentSystemDefault())): Article {
     return Article(
         "Lorem Ipsum",
         "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-        clock,
-        timeZone
+        timeContext.clock,
+        timeContext.timeZone
     )
 }
 
