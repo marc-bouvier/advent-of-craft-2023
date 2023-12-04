@@ -7,7 +7,7 @@ import time.TimeZonedClock
 class Article(
     private val name: String,
     private val content: String,
-    private val time:TimeZonedClock
+    private val clock:TimeZonedClock
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 
@@ -20,7 +20,7 @@ class Article(
     }
 
     fun addComment(text: String, author: String) {
-        addComment(text, author, time.todayAsLocalDate())
+        addComment(text, author, clock.todayAsLocalDate())
     }
 
     fun getComments(): List<Comment> {
