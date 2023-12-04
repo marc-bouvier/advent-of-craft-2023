@@ -1,3 +1,3 @@
 package blog
 
-class CommentAlreadyExistException : Exception() 
+class CommentAlreadyExist : Exception()
