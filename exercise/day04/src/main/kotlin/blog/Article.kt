@@ -1,13 +1,13 @@
 package blog
 
 import kotlinx.datetime.LocalDate
-import time.TimeContext
+import time.TimeZonedClock
 
 
 class Article(
     private val name: String,
     private val content: String,
-    private val time:TimeContext
+    private val time:TimeZonedClock
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 

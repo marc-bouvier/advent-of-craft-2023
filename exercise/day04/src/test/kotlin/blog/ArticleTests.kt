@@ -6,7 +6,7 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlinx.datetime.*
 import test.utilities.SpyClock
-import time.TimeContext
+import time.TimeZonedClock
 import test.utilities.now
 import test.utilities.timeZone
 
@@ -46,7 +46,7 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val time = TimeContext(SpyClock(now()), timeZone())
+        val time = TimeZonedClock(SpyClock(now()), timeZone())
         val article = anArticle(time)
 
         article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
@@ -65,10 +65,10 @@ class ArticleTests : StringSpec({
     }
 })
 
-private fun anArticle(timeContext: TimeContext = TimeContext(Clock.System, TimeZone.currentSystemDefault())): Article {
+private fun anArticle(timeZonedClock: TimeZonedClock = TimeZonedClock(Clock.System, TimeZone.currentSystemDefault())): Article {
     return Article(
         "Lorem Ipsum",
         "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-        timeContext
+        timeZonedClock
     )
 }
