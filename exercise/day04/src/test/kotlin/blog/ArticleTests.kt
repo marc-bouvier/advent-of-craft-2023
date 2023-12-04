@@ -5,15 +5,16 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.collections.shouldHaveSize
-import kotlinx.datetime.Clock
+import kotlinx.datetime.*
+
 
 class ArticleTests : StringSpec({
 
     // No assertion
     // What means "valid comment"? Are there invalid comments?
     "It should add valid comment" {
-            val article = anArticle()
-            article.addComment("Amazing article !!!", "Pablo Escobar")
+        val article = anArticle()
+        article.addComment("Amazing article !!!", "Pablo Escobar")
 
         article.getComments() shouldHaveSize 1
     }
@@ -42,11 +43,14 @@ class ArticleTests : StringSpec({
 
     // No assertion, no date is visible in this test
     "It should add a comment with the date of the day" {
-        val article = anArticle()
+        val now = Instant.parse("2023-12-06T21:57:43.145Z")
+        val timeZone = TimeZone.currentSystemDefault()
+        val localDateTime = now.toLocalDateTime(timeZone)
+        val localDate = LocalDate(localDateTime.year,localDateTime.month,localDateTime.dayOfMonth)
+        val article = anArticle(clock = SpyClock(now), timeZone = timeZone)
 
-        shouldNotThrowAny {
-            article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
-        }
+        article.addComment(text = "Amazing article !!!", author = "Pablo Escobar")
+        article.getComments() shouldHaveSingleElement { it.creationDate == localDate}
     }
 
     // The behavior should be understandable by the business folks
@@ -61,11 +65,20 @@ class ArticleTests : StringSpec({
     }
 })
 
+class SpyClock(private val now: Instant) : Clock {
+    override fun now(): Instant {
+        return now
+    }
+}
 
-private fun anArticle(clock: Clock = Clock.System) = Article(
-    "Lorem Ipsum",
-    "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
-    clock
-)
+
+private fun anArticle(clock: Clock = Clock.System, timeZone: TimeZone = TimeZone.currentSystemDefault()): Article {
+    return Article(
+        "Lorem Ipsum",
+        "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+        clock,
+        timeZone
+    )
+}
 
 
