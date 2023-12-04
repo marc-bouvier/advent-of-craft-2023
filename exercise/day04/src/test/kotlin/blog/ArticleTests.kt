@@ -8,7 +8,7 @@ import io.kotest.matchers.collections.shouldHaveSingleElement
 
 class ArticleTests : StringSpec({
 
-    "it_should_add_valid_comment" {
+    "It should add valid comment" {
         shouldNotThrowAny {
             val article = Article(
                 "Lorem Ipsum",
@@ -18,7 +18,7 @@ class ArticleTests : StringSpec({
         }
     }
 
-    "it_should_add_a_comment_with_the_given_text" {
+    "It should add a comment with the given text" {
         val article = Article(
             "Lorem Ipsum",
             "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
@@ -29,7 +29,7 @@ class ArticleTests : StringSpec({
         article.getComments() shouldHaveSingleElement { it.text == text }
     }
 
-    "it_should_add_a_comment_with_the_given_author" {
+    "It should add a comment with the given author" {
         val article = Article(
             "Lorem Ipsum",
             "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
@@ -41,7 +41,7 @@ class ArticleTests : StringSpec({
 
     }
 
-    "it_should_add_a_comment_with_the_date_of_the_day" {
+    "It should add a comment with the date of the day" {
         val article = Article(
             "Lorem Ipsum",
             "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
@@ -51,7 +51,7 @@ class ArticleTests : StringSpec({
         }
     }
 
-    "it_should_throw_an_exception_when_adding_existing_comment" {
+    "It should throw an exception when adding existing comment" {
         val article = Article(
             "Lorem Ipsum",
             "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
