@@ -11,16 +11,16 @@ class Article(
 ) {
     private val comments: MutableList<Comment> = mutableListOf()
 
+    fun addComment(text: String, author: String) {
+        addComment(text, author, clock.todayAsLocalDate())
+    }
+
     private fun addComment(text: String, author: String, creationDate: LocalDate) {
 
         val comment = Comment(text, author, creationDate)
         if (comments.contains(comment)) {
             throw CommentAlreadyExist()
         } else comments.add(comment)
-    }
-
-    fun addComment(text: String, author: String) {
-        addComment(text, author, clock.todayAsLocalDate())
     }
 
     fun comments(): List<Comment> {
