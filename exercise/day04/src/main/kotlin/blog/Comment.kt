@@ -1,8 +1,10 @@
 package blog
 
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
+
 
 data class Comment(
     val text: String,
     val author: String,
-    val creationDate: LocalDate)
+    val creationDate: LocalDate
+)

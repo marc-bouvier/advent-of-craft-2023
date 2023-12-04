@@ -5,6 +5,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSingleElement
 import io.kotest.matchers.collections.shouldHaveSize
+import kotlinx.datetime.Clock
 
 class ArticleTests : StringSpec({
 
@@ -61,9 +62,10 @@ class ArticleTests : StringSpec({
 })
 
 
-private fun anArticle() = Article(
+private fun anArticle(clock: Clock = Clock.System) = Article(
     "Lorem Ipsum",
-    "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+    "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
+    clock
 )
 
 
