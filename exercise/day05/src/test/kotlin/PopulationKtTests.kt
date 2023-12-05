@@ -54,10 +54,7 @@ class PopulationKtTests : StringSpec({
 
 })
 
-fun Population.format(): String {
-    return this.joinToString(separator = EOL, transform = Person::format)
-
-}
+fun Population.format(): String = this.joinToString(separator = EOL, transform = Person::format)
 
 private fun Person.format(): String {
     var responseLine = "${this.firstName} ${this.lastName}"
