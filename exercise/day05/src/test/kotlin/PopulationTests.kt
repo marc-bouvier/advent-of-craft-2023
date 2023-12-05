@@ -8,7 +8,7 @@ typealias Population = List<Person>
 
 val EOL = System.lineSeparator()!!
 
-class PopulationKtTests : StringSpec({
+class PopulationTests : StringSpec({
     lateinit var population: Population
     beforeSpec {
         population = listOf(
