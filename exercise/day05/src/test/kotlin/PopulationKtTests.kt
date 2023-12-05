@@ -57,7 +57,7 @@ class PopulationKtTests : StringSpec({
 fun Population.format(): StringBuilder {
     val response = StringBuilder()
     for (person in this) {
-        var responseLine = person.format()
+        var responseLine = person.format().apply {  }
         if (this.last() != person) {
             responseLine += EOL
         }
