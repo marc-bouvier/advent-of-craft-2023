@@ -58,11 +58,11 @@ fun Population.format(): StringBuilder {
     val response = StringBuilder()
     for (person in this) {
         response.append("${person.firstName} ${person.lastName}")
-        if (person.pets.isNotEmpty()) {
+        val pets = person.pets
+        if (pets.isNotEmpty()) {
             response.append(" who owns : ")
-        }
-        for (pet in person.pets) {
-            response.append(pet.name).append(" ")
+            response.append(
+                pets.joinToString(separator = " ", postfix = " ") { it -> it.name })
         }
         if (this.last() != person) {
             response.append(EOL)
