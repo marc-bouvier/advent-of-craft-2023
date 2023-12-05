@@ -63,7 +63,7 @@ fun Population.format(): StringBuilder {
         for (pet in person.pets) {
             response.append(pet.name).append(" ")
         }
-        if (this.last != person) {
+        if (this.last() != person) {
             response.append(System.lineSeparator())
         }
     }
