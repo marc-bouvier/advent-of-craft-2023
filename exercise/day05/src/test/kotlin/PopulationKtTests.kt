@@ -1,6 +1,5 @@
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import org.assertj.core.api.Assertions
 import people.Person
 import people.Pet
 import people.PetType
@@ -40,17 +39,15 @@ class PopulationKtTests : StringSpec({
 
     "People with their pets" {
         val response = population.format()
-        Assertions.assertThat(response.toString())
-            .hasToString(
+        response.toString() shouldBe
                 "Peter Griffin who owns : Tabby " + EOL +
-                        "Stewie Griffin who owns : Dolly Brian " + EOL +
-                        "Joe Swanson who owns : Spike " + EOL +
-                        "Lois Griffin who owns : Serpy " + EOL +
-                        "Meg Griffin who owns : Tweety " + EOL +
-                        "Chris Griffin who owns : Speedy " + EOL +
-                        "Cleveland Brown who owns : Fuzzy Wuzzy " + EOL +
-                        "Glenn Quagmire"
-            )
+                "Stewie Griffin who owns : Dolly Brian " + EOL +
+                "Joe Swanson who owns : Spike " + EOL +
+                "Lois Griffin who owns : Serpy " + EOL +
+                "Meg Griffin who owns : Tweety " + EOL +
+                "Chris Griffin who owns : Speedy " + EOL +
+                "Cleveland Brown who owns : Fuzzy Wuzzy " + EOL +
+                "Glenn Quagmire"
     }
 
 })
