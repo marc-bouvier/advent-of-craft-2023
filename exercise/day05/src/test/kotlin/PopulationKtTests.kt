@@ -57,20 +57,25 @@ class PopulationKtTests : StringSpec({
 fun Population.format(): StringBuilder {
     val response = StringBuilder()
     for (person in this) {
-        var responseLine = ""
-        responseLine += "${person.firstName} ${person.lastName}"
-        val pets = person.pets
-        if (pets.isNotEmpty()) {
-            responseLine += " who owns : "
-            responseLine +=
-                pets.joinToString(separator = " ", postfix = " ") { it -> it.name }
-        }
-        if (this.last() != person) {
-            responseLine += EOL
-        }
+        var responseLine = formatLine(person)
         response.append(responseLine)
     }
     return response
+}
+
+private fun Population.formatLine(person: Person): String {
+    var responseLine = ""
+    responseLine += "${person.firstName} ${person.lastName}"
+    val pets = person.pets
+    if (pets.isNotEmpty()) {
+        responseLine += " who owns : "
+        responseLine +=
+            pets.joinToString(separator = " ", postfix = " ") { it -> it.name }
+    }
+    if (this.last() != person) {
+        responseLine += EOL
+    }
+    return responseLine
 }
 
 fun Person.youngestPetAge(): Int {
