@@ -55,15 +55,9 @@ class PopulationKtTests : StringSpec({
 })
 
 fun Population.format(): StringBuilder {
-    val response = StringBuilder()
-    for (person in this) {
-        var responseLine = person.format().apply {  }
-        if (this.last() != person) {
-            responseLine += EOL
-        }
-        response.append(responseLine)
-    }
-    return response
+    return StringBuilder(
+        this.joinToString(separator = EOL, transform = Person::format)
+    )
 }
 
 private fun Person.format(): String {
