@@ -67,15 +67,12 @@ fun Population.format(): StringBuilder {
 }
 
 private fun Person.formatLine(): String {
-    var responseLine = ""
-    responseLine += "${this.firstName} ${this.lastName}"
+    var responseLine = "${this.firstName} ${this.lastName}"
     val pets = this.pets
     if (pets.isNotEmpty()) {
         responseLine += " who owns : "
-        responseLine +=
-            pets.joinToString(separator = " ", postfix = " ") { it -> it.name }
+        responseLine += pets.joinToString(separator = " ", postfix = " ") { it -> it.name }
     }
-
     return responseLine
 }
 
