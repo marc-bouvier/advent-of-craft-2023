@@ -1,4 +1,5 @@
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions
 import people.Person
 import people.Pet
@@ -31,10 +32,9 @@ class PopulationKtTests : StringSpec({
     }
 
     "Who owns the youngest pet" {
-        val filtered = population.stream()
-            .min(Comparator.comparingInt { person: Person -> youngestPetAgeOfThePerson(person) })
-            .orElse(null)!!
-        Assertions.assertThat(filtered.firstName).isEqualTo("Lois")
+        val filtered = population
+            .minByOrNull { person -> youngestPetAgeOfThePerson(person) }
+        filtered!!.firstName shouldBe "Lois"
     }
 
     "People with their pets" {
@@ -73,8 +73,6 @@ fun Population.format(): StringBuilder {
 
 private fun youngestPetAgeOfThePerson(person: Person): Int {
     return person.pets
-        .stream()
-        .mapToInt(Pet::age)
-        .min()
-        .orElse(Int.MAX_VALUE)
+        .map(Pet::age)
+        .minOrNull() ?: Int.MAX_VALUE
 }
