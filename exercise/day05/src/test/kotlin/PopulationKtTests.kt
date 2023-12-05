@@ -72,7 +72,5 @@ fun Population.format(): StringBuilder {
 }
 
 private fun youngestPetAgeOfThePerson(person: Person): Int {
-    return person.pets
-        .map(Pet::age)
-        .minOrNull() ?: Int.MAX_VALUE
+    return person.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
 }
