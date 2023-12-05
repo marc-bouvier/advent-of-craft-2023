@@ -54,10 +54,9 @@ class PopulationKtTests : StringSpec({
 
 })
 
-fun Population.format(): StringBuilder {
-    return StringBuilder(
-        this.joinToString(separator = EOL, transform = Person::format)
-    )
+fun Population.format(): String {
+    return this.joinToString(separator = EOL, transform = Person::format)
+
 }
 
 private fun Person.format(): String {
