@@ -7,6 +7,8 @@ import people.PetType
 
 typealias Population = List<Person>
 
+val EOL = System.lineSeparator()!!
+
 class PopulationKtTests : StringSpec({
     lateinit var population: Population
     beforeSpec {
@@ -40,13 +42,13 @@ class PopulationKtTests : StringSpec({
         val response = population.format()
         Assertions.assertThat(response.toString())
             .hasToString(
-                "Peter Griffin who owns : Tabby " + System.lineSeparator() +
-                        "Stewie Griffin who owns : Dolly Brian " + System.lineSeparator() +
-                        "Joe Swanson who owns : Spike " + System.lineSeparator() +
-                        "Lois Griffin who owns : Serpy " + System.lineSeparator() +
-                        "Meg Griffin who owns : Tweety " + System.lineSeparator() +
-                        "Chris Griffin who owns : Speedy " + System.lineSeparator() +
-                        "Cleveland Brown who owns : Fuzzy Wuzzy " + System.lineSeparator() +
+                "Peter Griffin who owns : Tabby " + EOL +
+                        "Stewie Griffin who owns : Dolly Brian " + EOL +
+                        "Joe Swanson who owns : Spike " + EOL +
+                        "Lois Griffin who owns : Serpy " + EOL +
+                        "Meg Griffin who owns : Tweety " + EOL +
+                        "Chris Griffin who owns : Speedy " + EOL +
+                        "Cleveland Brown who owns : Fuzzy Wuzzy " + EOL +
                         "Glenn Quagmire"
             )
     }
@@ -56,7 +58,7 @@ class PopulationKtTests : StringSpec({
 fun Population.format(): StringBuilder {
     val response = StringBuilder()
     for (person in this) {
-        response.append(String.format("%s %s", person.firstName, person.lastName))
+        response.append("${person.firstName} ${person.lastName}")
         if (person.pets.isNotEmpty()) {
             response.append(" who owns : ")
         }
@@ -64,7 +66,7 @@ fun Population.format(): StringBuilder {
             response.append(pet.name).append(" ")
         }
         if (this.last() != person) {
-            response.append(System.lineSeparator())
+            response.append(EOL)
         }
     }
     return response
