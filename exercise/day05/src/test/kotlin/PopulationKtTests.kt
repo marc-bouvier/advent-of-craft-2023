@@ -39,9 +39,7 @@ class PopulationKtTests : StringSpec({
     }
 
     "People with their pets" {
-        val response = population.format()
-
-        response shouldBe
+        population.format() shouldBe
                 "Peter Griffin who owns : Tabby " + EOL +
                 "Stewie Griffin who owns : Dolly Brian " + EOL +
                 "Joe Swanson who owns : Spike " + EOL +
