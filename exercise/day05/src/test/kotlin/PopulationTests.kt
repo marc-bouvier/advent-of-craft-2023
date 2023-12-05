@@ -9,7 +9,9 @@ typealias Population = List<Person>
 val EOL = System.lineSeparator()!!
 
 class PopulationTests : StringSpec({
+
     lateinit var population: Population
+
     beforeSpec {
         population = listOf(
             Person("Peter", "Griffin")
@@ -52,7 +54,10 @@ class PopulationTests : StringSpec({
 
 })
 
-fun Population.format(): String = this.joinToString(separator = EOL, transform = Person::format)
+fun Population.format(): String = this.joinToString(
+    transform = Person::format,
+    separator = EOL
+)
 
 private fun Person.format(): String {
     var responseLine = "${this.firstName} ${this.lastName}"
