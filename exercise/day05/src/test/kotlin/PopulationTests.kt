@@ -65,8 +65,8 @@ private fun Person.format(): String {
     var responseLine = "${this.firstName} ${this.lastName}"
     val pets = this.pets
     if (pets.isNotEmpty()) {
-        responseLine += " who owns : "
-        responseLine += pets.joinToString(separator = " ", postfix = " ") { it.name }
+        val petsNames = pets.joinToString(separator = " ", postfix = " ") { it.name }
+        responseLine += " who owns : $petsNames"
     }
     return responseLine
 }
