@@ -54,6 +54,8 @@ class PopulationTests : StringSpec({
 
 })
 
+fun Person.youngestPetAge(): Int = this.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
+
 fun Population.format(): String = this.joinToString(
     transform = Person::format,
     separator = EOL
@@ -68,5 +70,3 @@ private fun Person.format(): String {
     }
     return responseLine
 }
-
-fun Person.youngestPetAge(): Int = this.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
