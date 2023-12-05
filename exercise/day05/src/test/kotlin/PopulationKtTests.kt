@@ -66,6 +66,4 @@ private fun Person.format(): String {
     return responseLine
 }
 
-fun Person.youngestPetAge(): Int {
-    return this.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
-}
+fun Person.youngestPetAge(): Int = this.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
