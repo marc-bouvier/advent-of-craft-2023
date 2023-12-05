@@ -34,11 +34,13 @@ class PopulationKtTests : StringSpec({
 
     "Who owns the youngest pet" {
         val filtered = population.minByOrNull(Person::youngestPetAge)
+
         filtered!!.firstName shouldBe "Lois"
     }
 
     "People with their pets" {
         val response = population.format()
+
         response.toString() shouldBe
                 "Peter Griffin who owns : Tabby " + EOL +
                 "Stewie Griffin who owns : Dolly Brian " + EOL +
