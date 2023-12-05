@@ -33,7 +33,7 @@ class PopulationKtTests : StringSpec({
 
     "Who owns the youngest pet" {
         val filtered = population
-            .minByOrNull { person -> youngestPetAgeOfThePerson(person) }
+            .minByOrNull { person -> person.youngestPetAgeOfThePerson() }
         filtered!!.firstName shouldBe "Lois"
     }
 
@@ -71,6 +71,6 @@ fun Population.format(): StringBuilder {
     return response
 }
 
-private fun youngestPetAgeOfThePerson(person: Person): Int {
-    return person.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
+fun Person.youngestPetAgeOfThePerson(): Int {
+    return this.pets.minOfOrNull(Pet::age) ?: Int.MAX_VALUE
 }
