@@ -50,7 +50,6 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-
     "FizzBuzz" {
         forAll(
             row(15),
@@ -62,7 +61,6 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-
     "Out of range" {
         forAll(
             row(0),
@@ -72,18 +70,5 @@ class FizzBuzzTests : StringSpec({
         { givenNumber ->
             shouldThrow<OutOfRangeException> { FizzBuzz.convert(givenNumber) }
         }
-
-    }
-
-    "Out of range for 0" {
-        shouldThrow<OutOfRangeException> { FizzBuzz.convert(0) }
-    }
-
-    "Out of range for 101" {
-        shouldThrow<OutOfRangeException> { FizzBuzz.convert(101) }
-    }
-
-    "Out of range for minus 1" {
-        shouldThrow<OutOfRangeException> { FizzBuzz.convert(-1) }
     }
 })
