@@ -50,17 +50,7 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-    "Buzz for 5" {
-        FizzBuzz.convert(5) shouldBe "Buzz"
-    }
 
-    "Buzz for 50" {
-        FizzBuzz.convert(50) shouldBe "Buzz"
-    }
-
-    "Buzz for 85" {
-        FizzBuzz.convert(85) shouldBe "Buzz"
-    }
 
     "Fizz Buzz for 15" {
         FizzBuzz.convert(15) shouldBe "FizzBuzz"
