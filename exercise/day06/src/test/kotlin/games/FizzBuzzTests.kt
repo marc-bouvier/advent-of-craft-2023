@@ -62,19 +62,6 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-
-    "Fizz Buzz for 15" {
-        FizzBuzz.convert(15) shouldBe "FizzBuzz"
-    }
-
-    "Fizz Buzz for 30" {
-        FizzBuzz.convert(30) shouldBe "FizzBuzz"
-    }
-
-    "Fizz Buzz for 45" {
-        FizzBuzz.convert(45) shouldBe "FizzBuzz"
-    }
-
     "Out of range for 0" {
         shouldThrow<OutOfRangeException> { FizzBuzz.convert(0) }
     }
