@@ -1,5 +1,6 @@
 package games
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions
@@ -67,14 +68,14 @@ class FizzBuzzTests : StringSpec({
     }
 
     "Out of range for 0" {
-        Assertions.assertThatThrownBy { FizzBuzz.convert(0) }.isInstanceOf(OutOfRangeException::class.java)
+        shouldThrow<OutOfRangeException> { FizzBuzz.convert(0) }
     }
 
     "Out of range for 101" {
-        Assertions.assertThatThrownBy { FizzBuzz.convert(101) }.isInstanceOf(OutOfRangeException::class.java)
+        shouldThrow<OutOfRangeException> { FizzBuzz.convert(101) }
     }
 
     "Out of range for minus 1" {
-        Assertions.assertThatThrownBy { FizzBuzz.convert(-1) }.isInstanceOf(OutOfRangeException::class.java)
+        shouldThrow<OutOfRangeException> { FizzBuzz.convert(-1) }
     }
 })
