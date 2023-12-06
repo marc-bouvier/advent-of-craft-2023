@@ -5,6 +5,14 @@ import org.assertj.core.api.Assertions
 
 class FizzBuzzTests : StringSpec({
 
+    // To Parameterize :
+    //
+    // The given number
+    // Fizz
+    // Buzz
+    // FizzBuzz
+    // Out of range
+
     "The given number for 1" {
         Assertions.assertThat(FizzBuzz.convert(1))
             .isEqualTo("1")
