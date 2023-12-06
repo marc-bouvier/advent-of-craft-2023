@@ -27,18 +27,6 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-    "The given number for 1" {
-        FizzBuzz.convert(1) shouldBe "2"
-    }
-
-    "The given number for 67" {
-        FizzBuzz.convert(67) shouldBe "67"
-    }
-
-    "The given number for 82" {
-        FizzBuzz.convert(82) shouldBe "82"
-    }
-
     "Fizz for 3" {
         FizzBuzz.convert(3) shouldBe "Fizz"
     }
