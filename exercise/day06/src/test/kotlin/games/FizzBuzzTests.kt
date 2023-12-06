@@ -16,6 +16,7 @@ class FizzBuzzTests : StringSpec({
     // Buzz
     // FizzBuzz
     // Out of range
+
     "The given number" {
         forAll(
             row(1, "1"),
@@ -25,6 +26,10 @@ class FizzBuzzTests : StringSpec({
         { givenNumber, conversion ->
             FizzBuzz.convert(givenNumber) shouldBe conversion
         }
+    }
+
+    "Fizz" {
+        FizzBuzz.convert(3) shouldBe "Fizz"
     }
 
     "Fizz for 3" {
