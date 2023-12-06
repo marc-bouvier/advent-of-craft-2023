@@ -31,6 +31,8 @@ class FizzBuzzTests : StringSpec({
     "Fizz" {
         forAll(
             row(3),
+            row(66),
+            row(99),
         )
         { givenNumber ->
             FizzBuzz.convert(givenNumber) shouldBe "Fizz"
