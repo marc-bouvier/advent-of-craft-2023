@@ -6,16 +6,7 @@ import io.kotest.data.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 
-
 class FizzBuzzTests : StringSpec({
-
-    // To Parameterize :
-    //
-    // The given number
-    // Fizz
-    // Buzz
-    // FizzBuzz
-    // Out of range
 
     "The given number" {
         forAll(
