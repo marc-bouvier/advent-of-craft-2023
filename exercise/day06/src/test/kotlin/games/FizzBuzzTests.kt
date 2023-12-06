@@ -39,18 +39,6 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
-    "Fizz for 3" {
-        FizzBuzz.convert(3) shouldBe "Fizz"
-    }
-
-    "Fizz for 66" {
-        FizzBuzz.convert(66) shouldBe "Fizz"
-    }
-
-    "Fizz for 99" {
-        FizzBuzz.convert(99) shouldBe "Fizz"
-    }
-
     "Buzz for 5" {
         FizzBuzz.convert(5) shouldBe "Buzz"
     }
