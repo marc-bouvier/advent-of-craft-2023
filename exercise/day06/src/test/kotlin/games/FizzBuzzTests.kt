@@ -29,7 +29,12 @@ class FizzBuzzTests : StringSpec({
     }
 
     "Fizz" {
-        FizzBuzz.convert(3) shouldBe "Fizz"
+        forAll(
+            row(3),
+        )
+        { givenNumber ->
+            FizzBuzz.convert(givenNumber) shouldBe "Fizz"
+        }
     }
 
     "Fizz for 3" {
