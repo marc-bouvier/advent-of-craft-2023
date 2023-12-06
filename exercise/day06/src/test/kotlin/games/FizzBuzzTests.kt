@@ -2,8 +2,10 @@ package games
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.data.forAll
+import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import org.assertj.core.api.Assertions
+
 
 class FizzBuzzTests : StringSpec({
 
@@ -14,13 +16,19 @@ class FizzBuzzTests : StringSpec({
     // Buzz
     // FizzBuzz
     // Out of range
-
-    "The given number for X" {
-        FizzBuzz.convert(1) shouldBe "1"
+    "The given number" {
+        forAll(
+            row(1, "1"),
+            row(67, "67"),
+            row(82, "82"),
+        )
+        { givenNumber, conversion ->
+            FizzBuzz.convert(givenNumber) shouldBe conversion
+        }
     }
 
     "The given number for 1" {
-        FizzBuzz.convert(1) shouldBe "1"
+        FizzBuzz.convert(1) shouldBe "2"
     }
 
     "The given number for 67" {
