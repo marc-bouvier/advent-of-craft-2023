@@ -39,6 +39,17 @@ class FizzBuzzTests : StringSpec({
         }
     }
 
+    "Buzz " {
+        forAll(
+            row(5),
+            row(50),
+            row(85),
+        )
+        { givenNumber ->
+            FizzBuzz.convert(givenNumber) shouldBe "Buzz"
+        }
+    }
+
     "Buzz for 5" {
         FizzBuzz.convert(5) shouldBe "Buzz"
     }
