@@ -19,51 +19,51 @@ class FizzBuzzTests : StringSpec({
     }
 
     "The given number for 1" {
-        Assertions.assertThat(FizzBuzz.convert(1)).isEqualTo("1")
+        FizzBuzz.convert(1) shouldBe "1"
     }
 
     "The given number for 67" {
-        Assertions.assertThat(FizzBuzz.convert(67)).isEqualTo("67")
+        FizzBuzz.convert(67) shouldBe "67"
     }
 
     "The given number for 82" {
-        Assertions.assertThat(FizzBuzz.convert(82)).isEqualTo("82")
+        FizzBuzz.convert(82) shouldBe "82"
     }
 
     "Fizz for 3" {
-        Assertions.assertThat(FizzBuzz.convert(3)).isEqualTo("Fizz")
+        FizzBuzz.convert(3) shouldBe "Fizz"
     }
 
     "Fizz for 66" {
-        Assertions.assertThat(FizzBuzz.convert(66)).isEqualTo("Fizz")
+        FizzBuzz.convert(66) shouldBe "Fizz"
     }
 
     "Fizz for 99" {
-        Assertions.assertThat(FizzBuzz.convert(99)).isEqualTo("Fizz")
+        FizzBuzz.convert(99) shouldBe "Fizz"
     }
 
     "Buzz for 5" {
-        Assertions.assertThat(FizzBuzz.convert(5)).isEqualTo("Buzz")
+        FizzBuzz.convert(5) shouldBe "Buzz"
     }
 
     "Buzz for 50" {
-        Assertions.assertThat(FizzBuzz.convert(50)).isEqualTo("Buzz")
+        FizzBuzz.convert(50) shouldBe "Buzz"
     }
 
     "Buzz for 85" {
-        Assertions.assertThat(FizzBuzz.convert(85)).isEqualTo("Buzz")
+        FizzBuzz.convert(85) shouldBe "Buzz"
     }
 
     "Fizz Buzz for 15" {
-        Assertions.assertThat(FizzBuzz.convert(15)).isEqualTo("FizzBuzz")
+        FizzBuzz.convert(15) shouldBe "FizzBuzz"
     }
 
     "Fizz Buzz for 30" {
-        Assertions.assertThat(FizzBuzz.convert(30)).isEqualTo("FizzBuzz")
+        FizzBuzz.convert(30) shouldBe "FizzBuzz"
     }
 
     "Fizz Buzz for 45" {
-        Assertions.assertThat(FizzBuzz.convert(45)).isEqualTo("FizzBuzz")
+        FizzBuzz.convert(45) shouldBe "FizzBuzz"
     }
 
     "Out of range for 0" {
