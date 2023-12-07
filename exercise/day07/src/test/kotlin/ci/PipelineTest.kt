@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito
 import org.mockito.Mockito.*
 
@@ -55,7 +56,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(any())
     }
 
     @Test
@@ -91,7 +92,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(any())
     }
 
     @Test
@@ -123,7 +124,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(any())
     }
 
     @Test
@@ -159,7 +160,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(any())
     }
 
     @Test
@@ -195,6 +196,6 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(any())
     }
 }
