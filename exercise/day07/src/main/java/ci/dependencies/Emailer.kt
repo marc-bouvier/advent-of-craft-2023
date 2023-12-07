@@ -1,5 +1,5 @@
-package ci.dependencies;
+package ci.dependencies
 
-public interface Emailer {
-    void send(String message);
+interface Emailer {
+    fun send(message: String?)
 }

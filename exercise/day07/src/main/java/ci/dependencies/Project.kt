@@ -1,46 +1,39 @@
-package ci.dependencies;
+package ci.dependencies
 
-public class Project {
-    private final boolean buildsSuccessfully;
-    private final TestStatus testStatus;
-
-    private Project(boolean buildsSuccessfully, TestStatus testStatus) {
-        this.buildsSuccessfully = buildsSuccessfully;
-        this.testStatus = testStatus;
+class Project private constructor(private val buildsSuccessfully: Boolean, private val testStatus: TestStatus?) {
+    fun hasTests(): Boolean {
+        return testStatus != TestStatus.NO_TESTS
     }
 
-    public static ProjectBuilder builder() {
-        return new ProjectBuilder();
+    fun runTests(): String {
+        return if (testStatus == TestStatus.PASSING_TESTS) "success" else "failure"
     }
 
-    public boolean hasTests() {
-        return testStatus != TestStatus.NO_TESTS;
+    fun deploy(): String {
+        return if (buildsSuccessfully) "success" else "failure"
     }
 
-    public String runTests() {
-        return testStatus == TestStatus.PASSING_TESTS ? "success" : "failure";
-    }
-
-    public String deploy() {
-        return buildsSuccessfully ? "success" : "failure";
-    }
-
-    public static class ProjectBuilder {
-        private boolean buildsSuccessfully;
-        private TestStatus testStatus;
-
-        public ProjectBuilder setTestStatus(TestStatus testStatus) {
-            this.testStatus = testStatus;
-            return this;
+    class ProjectBuilder {
+        private var buildsSuccessfully = false
+        private var testStatus: TestStatus? = null
+        fun setTestStatus(testStatus: TestStatus?): ProjectBuilder {
+            this.testStatus = testStatus
+            return this
         }
 
-        public ProjectBuilder setDeploysSuccessfully(boolean buildsSuccessfully) {
-            this.buildsSuccessfully = buildsSuccessfully;
-            return this;
+        fun setDeploysSuccessfully(buildsSuccessfully: Boolean): ProjectBuilder {
+            this.buildsSuccessfully = buildsSuccessfully
+            return this
         }
 
-        public Project build() {
-            return new Project(buildsSuccessfully, testStatus);
+        fun build(): Project {
+            return Project(buildsSuccessfully, testStatus)
+        }
+    }
+
+    companion object {
+        fun builder(): ProjectBuilder {
+            return ProjectBuilder()
         }
     }
 }

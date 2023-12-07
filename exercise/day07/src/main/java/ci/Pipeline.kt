@@ -1,63 +1,50 @@
-package ci;
+package ci
 
-import ci.dependencies.Config;
-import ci.dependencies.Emailer;
-import ci.dependencies.Logger;
-import ci.dependencies.Project;
+import ci.dependencies.Config
+import ci.dependencies.Emailer
+import ci.dependencies.Logger
+import ci.dependencies.Project
 
-public class Pipeline {
-    private final Config config;
-    private final Emailer emailer;
-    private final Logger log;
-
-    public Pipeline(Config config, Emailer emailer, Logger log) {
-        this.config = config;
-        this.emailer = emailer;
-        this.log = log;
-    }
-
-    public void run(Project project) {
-        boolean testsPassed;
-        boolean deploySuccessful;
-
-        if (project.hasTests()) {
-            if ("success".equals(project.runTests())) {
-                log.info("Tests passed");
-                testsPassed = true;
+class Pipeline(private val config: Config, private val emailer: Emailer, private val log: Logger) {
+    fun run(project: Project) {
+        val testsPassed: Boolean
+        val deploySuccessful: Boolean
+        testsPassed = if (project.hasTests()) {
+            if ("success" == project.runTests()) {
+                log.info("Tests passed")
+                true
             } else {
-                log.error("Tests failed");
-                testsPassed = false;
+                log.error("Tests failed")
+                false
             }
         } else {
-            log.info("No tests");
-            testsPassed = true;
+            log.info("No tests")
+            true
         }
-
-        if (testsPassed) {
-            if ("success".equals(project.deploy())) {
-                log.info("Deployment successful");
-                deploySuccessful = true;
+        deploySuccessful = if (testsPassed) {
+            if ("success" == project.deploy()) {
+                log.info("Deployment successful")
+                true
             } else {
-                log.error("Deployment failed");
-                deploySuccessful = false;
+                log.error("Deployment failed")
+                false
             }
         } else {
-            deploySuccessful = false;
+            false
         }
-
         if (config.sendEmailSummary()) {
-            log.info("Sending email");
+            log.info("Sending email")
             if (testsPassed) {
                 if (deploySuccessful) {
-                    emailer.send("Deployment completed successfully");
+                    emailer.send("Deployment completed successfully")
                 } else {
-                    emailer.send("Deployment failed");
+                    emailer.send("Deployment failed")
                 }
             } else {
-                emailer.send("Tests failed");
+                emailer.send("Tests failed")
             }
         } else {
-            log.info("Email disabled");
+            log.info("Email disabled")
         }
     }
 }

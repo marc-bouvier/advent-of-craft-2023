@@ -1,7 +1,6 @@
-package ci.dependencies;
+package ci.dependencies
 
-public interface Logger {
-    void info(String message);
-
-    void error(String message);
+interface Logger {
+    fun info(message: String?)
+    fun error(message: String?)
 }
