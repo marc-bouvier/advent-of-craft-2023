@@ -1,222 +1,198 @@
-package ci;
+package ci
 
-import ci.dependencies.Config;
-import ci.dependencies.Emailer;
-import ci.dependencies.Project;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import ci.dependencies.Config
+import ci.dependencies.Emailer
+import ci.dependencies.Project
+import ci.dependencies.TestStatus
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
 
-import java.util.Arrays;
-
-import static ci.dependencies.TestStatus.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-class PipelineTest {
-    private final Config config = mock(Config.class);
-    private final CapturingLogger log = new CapturingLogger();
-    private final Emailer emailer = mock(Emailer.class);
-
-    private Pipeline pipeline;
-
+internal class PipelineTest {
+    private val config = Mockito.mock(Config::class.java)
+    private val log = CapturingLogger()
+    private val emailer = Mockito.mock(Emailer::class.java)
+    private var pipeline: Pipeline? = null
     @BeforeEach
-    void setUp() {
-        pipeline = new Pipeline(config, emailer, log);
+    fun setUp() {
+        pipeline = Pipeline(config, emailer, log)
     }
 
     @Test
-    void project_with_tests_that_deploys_successfully_with_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(true);
-
-        var project = Project.builder()
-                .setTestStatus(PASSING_TESTS)
-                .setDeploysSuccessfully(true)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_that_deploys_successfully_with_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.PASSING_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: Tests passed",
                 "INFO: Deployment successful",
                 "INFO: Sending email"
-        ), log.getLoggedLines());
-
-        verify(emailer).send("Deployment completed successfully");
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer).send("Deployment completed successfully")
     }
 
     @Test
-    void project_with_tests_that_deploys_successfully_without_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(false);
-
-        Project project = Project.builder()
-                .setTestStatus(PASSING_TESTS)
-                .setDeploysSuccessfully(true)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_that_deploys_successfully_without_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.PASSING_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: Tests passed",
                 "INFO: Deployment successful",
                 "INFO: Email disabled"
-        ), log.getLoggedLines());
-
-        verify(emailer, never()).send(any());
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
-    void project_without_tests_that_deploys_successfully_with_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(true);
-
-        Project project = Project.builder()
-                .setTestStatus(NO_TESTS)
-                .setDeploysSuccessfully(true)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_without_tests_that_deploys_successfully_with_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.NO_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: No tests",
                 "INFO: Deployment successful",
                 "INFO: Sending email"
-        ), log.getLoggedLines());
-
-        verify(emailer).send("Deployment completed successfully");
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer).send("Deployment completed successfully")
     }
 
     @Test
-    void project_without_tests_that_deploys_successfully_without_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(false);
-
-        Project project = Project.builder()
-                .setTestStatus(NO_TESTS)
-                .setDeploysSuccessfully(true)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_without_tests_that_deploys_successfully_without_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.NO_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: No tests",
                 "INFO: Deployment successful",
                 "INFO: Email disabled"
-        ), log.getLoggedLines());
-
-        verify(emailer, never()).send(any());
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
-    void project_with_tests_that_fail_with_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(true);
-
-        Project project = Project.builder()
-                .setTestStatus(FAILING_TESTS)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_that_fail_with_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.FAILING_TESTS)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "ERROR: Tests failed",
                 "INFO: Sending email"
-        ), log.getLoggedLines());
-
-        verify(emailer).send("Tests failed");
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer).send("Tests failed")
     }
 
     @Test
-    void project_with_tests_that_fail_without_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(false);
-
-        Project project = Project.builder()
-                .setTestStatus(FAILING_TESTS)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_that_fail_without_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.FAILING_TESTS)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "ERROR: Tests failed",
                 "INFO: Email disabled"
-        ), log.getLoggedLines());
-
-        verify(emailer, never()).send(any());
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
-    void project_with_tests_and_failing_build_with_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(true);
-
-        Project project = Project.builder()
-                .setTestStatus(PASSING_TESTS)
-                .setDeploysSuccessfully(false)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_and_failing_build_with_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.PASSING_TESTS)
+            .setDeploysSuccessfully(false)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: Tests passed",
                 "ERROR: Deployment failed",
                 "INFO: Sending email"
-        ), log.getLoggedLines());
-
-        verify(emailer).send("Deployment failed");
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer).send("Deployment failed")
     }
 
     @Test
-    void project_with_tests_and_failing_build_without_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(false);
-
-        Project project = Project.builder()
-                .setTestStatus(PASSING_TESTS)
-                .setDeploysSuccessfully(false)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_with_tests_and_failing_build_without_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.PASSING_TESTS)
+            .setDeploysSuccessfully(false)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: Tests passed",
                 "ERROR: Deployment failed",
                 "INFO: Email disabled"
-        ), log.getLoggedLines());
-
-        verify(emailer, never()).send(any());
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
-    void project_without_tests_and_failing_build_with_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(true);
-
-        Project project = Project.builder()
-                .setTestStatus(NO_TESTS)
-                .setDeploysSuccessfully(false)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_without_tests_and_failing_build_with_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.NO_TESTS)
+            .setDeploysSuccessfully(false)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: No tests",
                 "ERROR: Deployment failed",
                 "INFO: Sending email"
-        ), log.getLoggedLines());
-
-        verify(emailer).send("Deployment failed");
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer).send("Deployment failed")
     }
 
     @Test
-    void project_without_tests_and_failing_build_without_email_notification() {
-        when(config.sendEmailSummary()).thenReturn(false);
-
-        Project project = Project.builder()
-                .setTestStatus(NO_TESTS)
-                .setDeploysSuccessfully(false)
-                .build();
-
-        pipeline.run(project);
-
-        assertEquals(Arrays.asList(
+    fun project_without_tests_and_failing_build_without_email_notification() {
+        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setTestStatus(TestStatus.NO_TESTS)
+            .setDeploysSuccessfully(false)
+            .build()
+        pipeline!!.run(project)
+        Assertions.assertEquals(
+            mutableListOf(
                 "INFO: No tests",
                 "ERROR: Deployment failed",
                 "INFO: Email disabled"
-        ), log.getLoggedLines());
-
-        verify(emailer, never()).send(any());
+            ), log.loggedLines
+        )
+        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 }
