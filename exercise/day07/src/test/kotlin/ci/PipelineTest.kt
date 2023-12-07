@@ -219,4 +219,22 @@ internal class PipelineTest {
         )
         verify(emailer, never()).send(any())
     }
+
+    @Test
+    fun characterization_project_with_test_status_is_null() {
+        `when`(config.sendEmailSummary()).thenReturn(false)
+        val project = Project.builder()
+            .setDeploysSuccessfully(false)
+            .build()
+
+        pipeline.run(project)
+
+        assertEquals(
+            mutableListOf(
+                "ERROR: Tests failed",
+                "INFO: Email disabled",
+            ), log.loggedLines
+        )
+        verify(emailer, never()).send(any())
+    }
 }
