@@ -14,7 +14,7 @@ internal class PipelineTest {
     private val config = Mockito.mock(Config::class.java)
     private val log = CapturingLogger()
     private val emailer = Mockito.mock(Emailer::class.java)
-    private var pipeline: Pipeline? = null
+    private lateinit var pipeline: Pipeline
     @BeforeEach
     fun setUp() {
         pipeline = Pipeline(config, emailer, log)
