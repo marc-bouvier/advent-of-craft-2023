@@ -4,8 +4,7 @@ import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus
-import ci.dependencies.TestStatus.NO_TESTS
-import ci.dependencies.TestStatus.PASSING_TESTS
+import ci.dependencies.TestStatus.*
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -101,7 +100,7 @@ internal class PipelineTest {
     fun project_with_tests_that_fail_with_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
-            .setTestStatus(TestStatus.FAILING_TESTS)
+            .setTestStatus(FAILING_TESTS)
             .build()
         pipeline.run(project)
         assertEquals(
@@ -117,7 +116,7 @@ internal class PipelineTest {
     fun project_with_tests_that_fail_without_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
-            .setTestStatus(TestStatus.FAILING_TESTS)
+            .setTestStatus(FAILING_TESTS)
             .build()
         pipeline.run(project)
         assertEquals(
