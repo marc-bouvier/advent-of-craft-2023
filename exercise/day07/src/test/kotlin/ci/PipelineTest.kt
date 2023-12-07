@@ -46,6 +46,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_deploys_successfully_without_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
@@ -66,6 +67,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_that_deploys_successfully_with_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(NO_TESTS)
@@ -86,6 +88,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_that_deploys_successfully_without_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
 
         val project = Project.builder()
@@ -106,6 +109,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_fail_with_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(FAILING_TESTS)
@@ -124,6 +128,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_fail_without_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(FAILING_TESTS)
@@ -142,6 +147,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_and_failing_build_with_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
@@ -162,6 +168,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_and_failing_build_without_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
@@ -182,6 +189,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_and_failing_build_with_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(NO_TESTS)
@@ -202,6 +210,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_and_failing_build_without_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(NO_TESTS)
@@ -222,6 +231,7 @@ internal class PipelineTest {
 
     @Test
     fun characterization_project_with_test_status_is_null() {
+
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setDeploysSuccessfully(false)
