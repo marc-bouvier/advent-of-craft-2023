@@ -5,6 +5,7 @@ import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
@@ -30,7 +31,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
                 "INFO: Deployment successful",
@@ -48,7 +49,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
                 "INFO: Deployment successful",
@@ -66,7 +67,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: No tests",
                 "INFO: Deployment successful",
@@ -84,7 +85,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: No tests",
                 "INFO: Deployment successful",
@@ -101,7 +102,7 @@ internal class PipelineTest {
             .setTestStatus(TestStatus.FAILING_TESTS)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "ERROR: Tests failed",
                 "INFO: Sending email"
@@ -117,7 +118,7 @@ internal class PipelineTest {
             .setTestStatus(TestStatus.FAILING_TESTS)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "ERROR: Tests failed",
                 "INFO: Email disabled"
@@ -134,7 +135,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
                 "ERROR: Deployment failed",
@@ -152,7 +153,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
                 "ERROR: Deployment failed",
@@ -170,7 +171,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: No tests",
                 "ERROR: Deployment failed",
@@ -188,7 +189,7 @@ internal class PipelineTest {
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
-        Assertions.assertEquals(
+        assertEquals(
             mutableListOf(
                 "INFO: No tests",
                 "ERROR: Deployment failed",
