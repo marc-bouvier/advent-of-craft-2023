@@ -4,6 +4,7 @@ import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus.*
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,14 +14,17 @@ import org.mockito.Mockito.*
 internal class PipelineTest {
 
     private val config = mock(Config::class.java)
+    private val newConfig = mockk<Config>()
     private val log = CapturingLogger()
     private val emailer = mock(Emailer::class.java)
 
     private lateinit var pipeline: Pipeline
+    private lateinit var newPipeline: Pipeline
 
     @BeforeEach
     fun setUp() {
         pipeline = Pipeline(config, emailer, log)
+        newPipeline = Pipeline(newConfig, emailer, log)
     }
 
     @Test
