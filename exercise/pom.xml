@@ -138,6 +138,13 @@
             <artifactId>kotest-property</artifactId>
             <version>5.8.0</version>
         </dependency>
+        <!-- Mocking-->
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk-jvm</artifactId>
+            <version>1.13.5</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Arrow brings idiomatic functional programming to Kotlin -->
         <dependency>
             <groupId>io.arrow-kt</groupId>
