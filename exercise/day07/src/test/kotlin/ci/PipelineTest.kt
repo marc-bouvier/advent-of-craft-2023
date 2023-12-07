@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 
 internal class PipelineTest {
@@ -36,7 +37,7 @@ internal class PipelineTest {
                 "INFO: Sending email"
             ), log.loggedLines
         )
-        Mockito.verify(emailer).send("Deployment completed successfully")
+        verify(emailer).send("Deployment completed successfully")
     }
 
     @Test
@@ -54,7 +55,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -72,7 +73,7 @@ internal class PipelineTest {
                 "INFO: Sending email"
             ), log.loggedLines
         )
-        Mockito.verify(emailer).send("Deployment completed successfully")
+        verify(emailer).send("Deployment completed successfully")
     }
 
     @Test
@@ -90,7 +91,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -106,7 +107,7 @@ internal class PipelineTest {
                 "INFO: Sending email"
             ), log.loggedLines
         )
-        Mockito.verify(emailer).send("Tests failed")
+        verify(emailer).send("Tests failed")
     }
 
     @Test
@@ -122,7 +123,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -140,7 +141,7 @@ internal class PipelineTest {
                 "INFO: Sending email"
             ), log.loggedLines
         )
-        Mockito.verify(emailer).send("Deployment failed")
+        verify(emailer).send("Deployment failed")
     }
 
     @Test
@@ -158,7 +159,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -176,7 +177,7 @@ internal class PipelineTest {
                 "INFO: Sending email"
             ), log.loggedLines
         )
-        Mockito.verify(emailer).send("Deployment failed")
+        verify(emailer).send("Deployment failed")
     }
 
     @Test
@@ -194,6 +195,6 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        Mockito.verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
     }
 }
