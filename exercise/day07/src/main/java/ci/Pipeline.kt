@@ -7,9 +7,8 @@ import ci.dependencies.Project
 
 class Pipeline(private val config: Config, private val emailer: Emailer, private val log: Logger) {
     fun run(project: Project) {
-        val testsPassed: Boolean
         val deploySuccessful: Boolean
-        testsPassed = if (project.hasTests()) {
+        val testsPassed: Boolean = if (project.hasTests()) {
             if ("success" == project.runTests()) {
                 log.info("Tests passed")
                 true
