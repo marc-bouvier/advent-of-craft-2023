@@ -10,8 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito.*
 
 internal class PipelineTest {
     private val config = Mockito.mock(Config::class.java)
@@ -56,7 +55,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -92,7 +91,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -124,7 +123,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -160,7 +159,7 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(ArgumentMatchers.any())
     }
 
     @Test
@@ -196,6 +195,6 @@ internal class PipelineTest {
                 "INFO: Email disabled"
             ), log.loggedLines
         )
-        verify(emailer, Mockito.never()).send(ArgumentMatchers.any())
+        verify(emailer, never()).send(ArgumentMatchers.any())
     }
 }
