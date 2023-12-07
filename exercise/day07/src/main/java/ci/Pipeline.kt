@@ -5,7 +5,12 @@ import ci.dependencies.Emailer
 import ci.dependencies.Logger
 import ci.dependencies.Project
 
-class Pipeline(private val config: Config, private val emailer: Emailer, private val log: Logger) {
+class Pipeline(
+    private val config: Config,
+    private val emailer: Emailer,
+    private val log: Logger
+) {
+
     fun run(project: Project) {
         val deploySuccessful: Boolean
         val testsPassed: Boolean = if (project.hasTests()) {

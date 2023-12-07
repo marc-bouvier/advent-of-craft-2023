@@ -1,6 +1,10 @@
 package ci.dependencies
 
-class Project private constructor(private val buildsSuccessfully: Boolean, private val testStatus: TestStatus?) {
+class Project private constructor(
+    private val buildsSuccessfully: Boolean,
+    private val testStatus: TestStatus?
+) {
+
     fun hasTests(): Boolean {
         return testStatus != TestStatus.NO_TESTS
     }
