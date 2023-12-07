@@ -26,12 +26,15 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_deploys_successfully_with_email_notification() {
+
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(true)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
@@ -49,7 +52,9 @@ internal class PipelineTest {
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(true)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
@@ -67,7 +72,9 @@ internal class PipelineTest {
             .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(true)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: No tests",
@@ -81,11 +88,13 @@ internal class PipelineTest {
     @Test
     fun project_without_tests_that_deploys_successfully_without_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(false)
+
         val project = Project.builder()
             .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: No tests",
@@ -102,7 +111,9 @@ internal class PipelineTest {
         val project = Project.builder()
             .setTestStatus(FAILING_TESTS)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "ERROR: Tests failed",
@@ -118,7 +129,9 @@ internal class PipelineTest {
         val project = Project.builder()
             .setTestStatus(FAILING_TESTS)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "ERROR: Tests failed",
@@ -135,7 +148,9 @@ internal class PipelineTest {
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(false)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
@@ -153,7 +168,9 @@ internal class PipelineTest {
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(false)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: Tests passed",
@@ -171,7 +188,9 @@ internal class PipelineTest {
             .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(false)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: No tests",
@@ -189,7 +208,9 @@ internal class PipelineTest {
             .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(false)
             .build()
+
         pipeline.run(project)
+
         assertEquals(
             mutableListOf(
                 "INFO: No tests",
