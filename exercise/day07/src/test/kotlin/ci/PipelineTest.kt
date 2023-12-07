@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 
 internal class PipelineTest {
     private val config = Mockito.mock(Config::class.java)
@@ -22,7 +23,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_deploys_successfully_with_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(TestStatus.PASSING_TESTS)
             .setDeploysSuccessfully(true)
@@ -40,7 +41,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_deploys_successfully_without_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(TestStatus.PASSING_TESTS)
             .setDeploysSuccessfully(true)
@@ -58,7 +59,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_that_deploys_successfully_with_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(TestStatus.NO_TESTS)
             .setDeploysSuccessfully(true)
@@ -76,7 +77,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_that_deploys_successfully_without_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(TestStatus.NO_TESTS)
             .setDeploysSuccessfully(true)
@@ -94,7 +95,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_fail_with_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(TestStatus.FAILING_TESTS)
             .build()
@@ -110,7 +111,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_that_fail_without_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(TestStatus.FAILING_TESTS)
             .build()
@@ -126,7 +127,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_and_failing_build_with_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(TestStatus.PASSING_TESTS)
             .setDeploysSuccessfully(false)
@@ -144,7 +145,7 @@ internal class PipelineTest {
 
     @Test
     fun project_with_tests_and_failing_build_without_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(TestStatus.PASSING_TESTS)
             .setDeploysSuccessfully(false)
@@ -162,7 +163,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_and_failing_build_with_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(true)
+        `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
             .setTestStatus(TestStatus.NO_TESTS)
             .setDeploysSuccessfully(false)
@@ -180,7 +181,7 @@ internal class PipelineTest {
 
     @Test
     fun project_without_tests_and_failing_build_without_email_notification() {
-        Mockito.`when`(config.sendEmailSummary()).thenReturn(false)
+        `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
             .setTestStatus(TestStatus.NO_TESTS)
             .setDeploysSuccessfully(false)
