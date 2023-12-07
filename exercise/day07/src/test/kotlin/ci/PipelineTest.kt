@@ -4,6 +4,7 @@ import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus
+import ci.dependencies.TestStatus.NO_TESTS
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -63,7 +64,7 @@ internal class PipelineTest {
     fun project_without_tests_that_deploys_successfully_with_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
-            .setTestStatus(TestStatus.NO_TESTS)
+            .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
@@ -81,7 +82,7 @@ internal class PipelineTest {
     fun project_without_tests_that_deploys_successfully_without_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
-            .setTestStatus(TestStatus.NO_TESTS)
+            .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(true)
             .build()
         pipeline.run(project)
@@ -167,7 +168,7 @@ internal class PipelineTest {
     fun project_without_tests_and_failing_build_with_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(true)
         val project = Project.builder()
-            .setTestStatus(TestStatus.NO_TESTS)
+            .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
@@ -185,7 +186,7 @@ internal class PipelineTest {
     fun project_without_tests_and_failing_build_without_email_notification() {
         `when`(config.sendEmailSummary()).thenReturn(false)
         val project = Project.builder()
-            .setTestStatus(TestStatus.NO_TESTS)
+            .setTestStatus(NO_TESTS)
             .setDeploysSuccessfully(false)
             .build()
         pipeline.run(project)
