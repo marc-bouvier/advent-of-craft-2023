@@ -1,7 +1,7 @@
-package ci.dependencies;
+package ci.dependencies
 
-public enum TestStatus {
+enum class TestStatus {
     NO_TESTS,
     PASSING_TESTS,
-    FAILING_TESTS,
+    FAILING_TESTS
 }

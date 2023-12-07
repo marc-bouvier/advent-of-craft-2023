@@ -1,5 +1,5 @@
-package ci.dependencies;
+package ci.dependencies
 
-public interface Config {
-    boolean sendEmailSummary();
+interface Config {
+    fun sendEmailSummary(): Boolean
 }
