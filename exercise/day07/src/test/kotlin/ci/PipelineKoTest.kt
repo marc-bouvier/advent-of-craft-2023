@@ -14,25 +14,25 @@ class PipelineKoTest : StringSpec ({
 
      val log = CapturingLogger()
 
-     val newConfig = mockk<Config>()
-     val newEmailer = mockk<Emailer>()
-     lateinit var newPipeline: Pipeline
+     val config = mockk<Config>()
+     val emailer = mockk<Emailer>()
+     lateinit var pipeline: Pipeline
 
      beforeEach {
-         newPipeline = Pipeline(newConfig, newEmailer, log)
+         pipeline = Pipeline(config, emailer, log)
      }
 
 
     "test_mockk_framework"() {
 
-        every{newConfig.sendEmailSummary()} returns true
-        justRun{newEmailer.send("Deployment completed successfully")}
+        every{config.sendEmailSummary()} returns true
+        justRun{emailer.send("Deployment completed successfully")}
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(true)
             .build()
 
-        newPipeline.run(project)
+        pipeline.run(project)
 
         assertEquals(
             mutableListOf(
@@ -41,7 +41,7 @@ class PipelineKoTest : StringSpec ({
                 "INFO: Sending email"
             ), log.loggedLines
         )
-       io.mockk.verify{newEmailer.send("Deployment completed successfully")}
+       io.mockk.verify{emailer.send("Deployment completed successfully")}
     }
 
 //    @Test
