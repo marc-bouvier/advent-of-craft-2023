@@ -3,30 +3,22 @@ package ci
 import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
-import ci.dependencies.TestStatus.*
+import ci.dependencies.TestStatus.PASSING_TESTS
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
 
 class PipelineKoTest : StringSpec ({
 
-     val config = mock(Config::class.java)
      val log = CapturingLogger()
-     val emailer = mock(Emailer::class.java)
-
-     lateinit var pipeline: Pipeline
 
      val newConfig = mockk<Config>()
      val newEmailer = mockk<Emailer>()
      lateinit var newPipeline: Pipeline
 
      beforeEach {
-         pipeline = Pipeline(config, emailer, log)
          newPipeline = Pipeline(newConfig, newEmailer, log)
      }
 
