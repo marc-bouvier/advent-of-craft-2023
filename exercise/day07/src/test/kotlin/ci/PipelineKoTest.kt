@@ -11,6 +11,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 
+// \`when\`\((.*)\)\.thenReturn\((.*)\)
+//    every{ $1 } returns $2
+
 class PipelineKoTest : StringSpec ({
 
      val log = CapturingLogger()
@@ -48,7 +51,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_that_deploys_successfully_with_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(true)
+//        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
 //            .setTestStatus(PASSING_TESTS)
 //            .setDeploysSuccessfully(true)
@@ -69,7 +72,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_that_deploys_successfully_without_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
 //            .setTestStatus(PASSING_TESTS)
 //            .setDeploysSuccessfully(true)
@@ -90,7 +93,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_without_tests_that_deploys_successfully_with_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(true)
+//        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
 //            .setTestStatus(NO_TESTS)
 //            .setDeploysSuccessfully(true)
@@ -111,7 +114,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_without_tests_that_deploys_successfully_without_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //
 //        val project = Project.builder()
 //            .setTestStatus(NO_TESTS)
@@ -132,7 +135,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_that_fail_with_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(true)
+//        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
 //            .setTestStatus(FAILING_TESTS)
 //            .build()
@@ -151,7 +154,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_that_fail_without_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
 //            .setTestStatus(FAILING_TESTS)
 //            .build()
@@ -170,7 +173,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_and_failing_build_with_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(true)
+//        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
 //            .setTestStatus(PASSING_TESTS)
 //            .setDeploysSuccessfully(false)
@@ -191,7 +194,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_with_tests_and_failing_build_without_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
 //            .setTestStatus(PASSING_TESTS)
 //            .setDeploysSuccessfully(false)
@@ -212,7 +215,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_without_tests_and_failing_build_with_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(true)
+//        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
 //            .setTestStatus(NO_TESTS)
 //            .setDeploysSuccessfully(false)
@@ -233,7 +236,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun project_without_tests_and_failing_build_without_email_notification() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
 //            .setTestStatus(NO_TESTS)
 //            .setDeploysSuccessfully(false)
@@ -254,7 +257,7 @@ class PipelineKoTest : StringSpec ({
 //    @Test
 //    fun characterization_project_with_test_status_is_null() {
 //
-//        `when`(config.sendEmailSummary()).thenReturn(false)
+//        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
 //            .setDeploysSuccessfully(false)
 //            .build()
