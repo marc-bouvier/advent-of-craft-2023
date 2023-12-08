@@ -4,6 +4,7 @@ import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus.*
+import io.kotest.core.spec.style.StringSpec
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
@@ -12,26 +13,25 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 
-internal class PipelineKoTest {
+class PipelineKoTest : StringSpec ({
 
-    private val config = mock(Config::class.java)
-    private val log = CapturingLogger()
-    private val emailer = mock(Emailer::class.java)
+     val config = mock(Config::class.java)
+     val log = CapturingLogger()
+     val emailer = mock(Emailer::class.java)
 
-    private lateinit var pipeline: Pipeline
+     lateinit var pipeline: Pipeline
 
-    private val newConfig = mockk<Config>()
-    private val newEmailer = mockk<Emailer>()
-    private lateinit var newPipeline: Pipeline
+     val newConfig = mockk<Config>()
+     val newEmailer = mockk<Emailer>()
+     lateinit var newPipeline: Pipeline
 
-    @BeforeEach
-    fun setUp() {
-        pipeline = Pipeline(config, emailer, log)
-        newPipeline = Pipeline(newConfig, newEmailer, log)
-    }
+     beforeEach {
+         pipeline = Pipeline(config, emailer, log)
+         newPipeline = Pipeline(newConfig, newEmailer, log)
+     }
 
-    @Test
-    fun test_mockk_framework() {
+
+    "test_mockk_framework"() {
 
         every{newConfig.sendEmailSummary()} returns true
         justRun{newEmailer.send("Deployment completed successfully")}
@@ -276,4 +276,4 @@ internal class PipelineKoTest {
 //        )
 //        verify(emailer, never()).send(any())
 //    }
-}
+})
