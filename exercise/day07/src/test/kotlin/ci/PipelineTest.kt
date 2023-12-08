@@ -4,27 +4,52 @@ import ci.dependencies.Config
 import ci.dependencies.Emailer
 import ci.dependencies.Project
 import ci.dependencies.TestStatus.*
+import io.mockk.every
+import io.mockk.justRun
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.*
 
 internal class PipelineTest {
 
     private val config = mock(Config::class.java)
-    private val newConfig = mockk<Config>()
     private val log = CapturingLogger()
     private val emailer = mock(Emailer::class.java)
 
     private lateinit var pipeline: Pipeline
+
+    private val newConfig = mockk<Config>()
+    private val newEmailer = mockk<Emailer>()
     private lateinit var newPipeline: Pipeline
 
     @BeforeEach
     fun setUp() {
         pipeline = Pipeline(config, emailer, log)
-        newPipeline = Pipeline(newConfig, emailer, log)
+        newPipeline = Pipeline(newConfig, newEmailer, log)
+    }
+
+    @Test
+    fun test_mockk_framework() {
+
+        every{newConfig.sendEmailSummary()} returns true
+        justRun{newEmailer.send("Deployment completed successfully")}
+        val project = Project.builder()
+            .setTestStatus(PASSING_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+
+        newPipeline.run(project)
+
+        assertEquals(
+            mutableListOf(
+                "INFO: Tests passed",
+                "INFO: Deployment successful",
+                "INFO: Sending email"
+            ), log.loggedLines
+        )
+       io.mockk.verify{newEmailer.send("Deployment completed successfully")}
     }
 
     @Test
