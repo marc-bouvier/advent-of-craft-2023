@@ -8,6 +8,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 
 class PipelineKoTest : StringSpec ({
@@ -41,7 +42,7 @@ class PipelineKoTest : StringSpec ({
                 "INFO: Sending email"
             ), log.loggedLines
         )
-       io.mockk.verify{emailer.send("Deployment completed successfully")}
+       verify{emailer.send("Deployment completed successfully")}
     }
 
 //    @Test
