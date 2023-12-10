@@ -11,10 +11,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 
-// TODO:
-//  - migrate to kotest with mockk
-//  - 💡HINT: Use all the techniques you've learned this week.
-
 // 🛠️ Find and replace (regex mode)
 // \`when\`\((.*)\)\.thenReturn\((.*)\)
 //    every{ $1 } returns $2
@@ -41,29 +37,7 @@ class PipelineKoTest : StringSpec({
         pipeline = Pipeline(config, emailer, log)
     }
 
-    "test_mockk_framework" {
-        every { config.sendEmailSummary() } returns true
-        justRun { emailer.send("Deployment completed successfully") }
-        val project = Project.builder()
-            .setTestStatus(PASSING_TESTS)
-            .setDeploysSuccessfully(true)
-            .build()
-
-        pipeline.run(project)
-
-        assertEquals(
-            mutableListOf(
-                "INFO: Tests passed",
-                "INFO: Deployment successful",
-                "INFO: Sending email"
-            ), log.loggedLines
-        )
-        verify { emailer.send("Deployment completed successfully") }
-    }
-
-
-
-    "project_with_tests_that_deploys_successfully_with_email_notification" {
+    "Project with tests that deploys successfully with email notification" {
 
         every { config.sendEmailSummary() } returns true
         justRun { emailer.send(any()) }
@@ -85,7 +59,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_with_tests_that_deploys_successfully_without_email_notification" {
+    "Project with tests that deploys successfully without email notification" {
 
         every { config.sendEmailSummary() } returns false
         justRun { emailer.send(any()) }
@@ -110,7 +84,7 @@ class PipelineKoTest : StringSpec({
         verify(exactly = 0) { emailer.send(any()) }
     }
 
-    "project_without_tests_that_deploys_successfully_with_email_notification" {
+    "Project without tests that deploys successfully with email notification" {
 
         every { config.sendEmailSummary() } returns true
         justRun { emailer.send(any()) }
@@ -132,7 +106,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_without_tests_that_deploys_successfully_without_email_notification" {
+    "Project without tests that deploys successfully without email notification" {
 
         every { config.sendEmailSummary() } returns false
 
@@ -153,7 +127,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_with_tests_that_fail_with_email_notification" {
+    "Project with tests that fail with email notification" {
 
         every { config.sendEmailSummary() } returns true
         justRun { emailer.send(any()) }
@@ -173,7 +147,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_with_tests_that_fail_without_email_notification" {
+    "Project with tests that fail without email notification" {
 
         every { config.sendEmailSummary() } returns false
         val project = Project.builder()
@@ -192,7 +166,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_with_tests_and_failing_build_with_email_notification" {
+    "Project with tests and failing build with email notification" {
 
         every { config.sendEmailSummary() } returns true
         justRun { emailer.send(any()) }
@@ -214,7 +188,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_with_tests_and_failing_build_without_email_notification" {
+    "Project with tests and failing build without email notification" {
 
         every { config.sendEmailSummary() } returns false
         val project = Project.builder()
@@ -235,7 +209,7 @@ class PipelineKoTest : StringSpec({
     }
 
 
-    "project_without_tests_and_failing_build_with_email_notification" {
+    "Project without tests and failing build with email notification" {
 
         every { config.sendEmailSummary() } returns true
         justRun { emailer.send(any()) }
@@ -256,7 +230,7 @@ class PipelineKoTest : StringSpec({
         verify { emailer.send("Deployment failed") }
     }
 
-    "project_without_tests_and_failing_build_without_email_notification" {
+    "Project without tests and failing build without email notification" {
 
         every { config.sendEmailSummary() } returns false
         val project = Project.builder()
@@ -276,7 +250,7 @@ class PipelineKoTest : StringSpec({
         verify(exactly = 0) { emailer.send(any()) }
     }
 
-    "characterization_project_with_test_status_is_null" {
+    "[Characterization] : project with test status is null" {
 
         every { config.sendEmailSummary() } returns false
         val project = Project.builder()
