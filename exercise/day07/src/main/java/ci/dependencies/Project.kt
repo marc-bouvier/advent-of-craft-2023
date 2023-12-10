@@ -2,14 +2,19 @@ package ci.dependencies
 
 class Project private constructor(
     private val buildsSuccessfully: Boolean,
-    private val testStatus: TestStatus? // What it the meaning of null value here?
-                                        //   Could we make it non nullable?
-                                        //   Should we make a builder attribute non-nullable
-                                        //   Could we use a default ? Should we ?
+    private val testStatus: TestStatus?
+    // What is the meaning of null value here?
+    //   Could we make it non nullable?
+    //   Should we make a builder attribute non-nullable
+    //   Could we use a default ? Should we ?
 ) {
 
     fun hasTests(): Boolean {
         return testStatus != TestStatus.NO_TESTS
+    }
+
+    fun hasNoTests(): Boolean {
+        return !hasTests()
     }
 
     fun runTests(): String {
