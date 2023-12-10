@@ -24,8 +24,8 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        val onTestJobSuccess = runJobTest(project).log().success
-        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess).log().success
+        val onTestJobSuccess = runJobTest(project).log()
+        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess).log()
         runJobSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
@@ -49,8 +49,8 @@ class Pipeline(
         }
     }
 
-    private fun runJobDeploy(project: Project, testsPassed: Boolean): StepResult {
-        if (!testsPassed) return StepResult(false, "", NoopLogger())
+    private fun runJobDeploy(project: Project, testsPassed: StepResult): StepResult {
+        if (!testsPassed.success) return StepResult(false, "", NoopLogger())
 
         return project.runStep(
             runStep = Project::deploy,
@@ -72,7 +72,7 @@ class Pipeline(
         }
     }
 
-    private fun runJobSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
+    private fun runJobSendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
         if (config.emailDisabled()) {
             StepResult(true, "Email disabled", log).log()
             return
@@ -84,12 +84,12 @@ class Pipeline(
     private fun Config.emailDisabled() =
         !this.sendEmailSummary()
 
-    private fun runStepSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
-        if (!onTestJobSuccess) {
+    private fun runStepSendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
+        if (!onTestJobSuccess.success) {
             emailer.send("Tests failed")
             return
         }
-        if (onDeployJobSuccess) {
+        if (onDeployJobSuccess.success) {
             emailer.send("Deployment completed successfully")
             return
         }
