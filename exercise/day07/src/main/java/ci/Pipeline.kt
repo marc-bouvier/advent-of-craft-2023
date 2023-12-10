@@ -27,7 +27,7 @@ class Pipeline(
 
         val testsResult = runJobTest(project).log()
         val deployResult = runJobDeploy(project, testsResult).log()
-        runJobSendEmail(testsResult, deployResult)
+        runJobSendEmail(testsResult, deployResult).log()
     }
 
     private fun runJobTest(project: Project): StepResult {
