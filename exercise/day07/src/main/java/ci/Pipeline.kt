@@ -24,14 +24,14 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        val onTestJobSuccess = runJobTest(project)
+        val onTestJobSuccess = runJobTest(project).log().success
         val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess)
         runJobSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
-    private fun runJobTest(project: Project): Boolean {
+    private fun runJobTest(project: Project): StepResult {
         if (project.hasNoTests()) {
-            return StepResult(true, "No tests", log).log().success
+            return StepResult(true, "No tests", log)
         }
         return project.runStep(
             runStep = Project::runTests,
@@ -55,27 +55,28 @@ class Pipeline(
             runStep = Project::deploy,
             successMessage = "Deployment successful",
             errorMessage = "Deployment failed",
-        )
+        ).log().success
     }
 
     private fun Project.runStep(
         runStep: (Project) -> String,
         successMessage: String,
         errorMessage: String
-    ): Boolean {
+    ): StepResult {
         val onStepSuccess = SUCCESS == runStep(this)
         if (!onStepSuccess) {
-            return StepResult(false,errorMessage,log).log().success
+            return StepResult(false, errorMessage, log)
         } else {
-            return StepResult(true,successMessage,log).log().success
+            return StepResult(true, successMessage, log)
         }
     }
 
     private fun runJobSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
         if (config.emailDisabled()) {
-            log.info("Email disabled")
+            StepResult(true, "Email disabled", log).log()
             return
         }
+        log.info("Sending email")
         runStepSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
@@ -83,7 +84,6 @@ class Pipeline(
         !this.sendEmailSummary()
 
     private fun runStepSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
-        log.info("Sending email")
         if (!onTestJobSuccess) {
             emailer.send("Tests failed")
             return
