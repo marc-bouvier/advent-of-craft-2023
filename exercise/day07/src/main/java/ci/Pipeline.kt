@@ -27,47 +27,39 @@ class Pipeline(
         summary(testsResult, deployResult).log()
     }
 
-    private fun test(project: Project): StepResult {
-        return if (project.hasNoTests()) {
+    private fun test(project: Project): StepResult =
+        if (project.hasNoTests())
             StepResult.succeeding("No tests", log)
-        } else {
-            project.runStep(
-                runStep = Project::runTests,
-                successMessage = "Tests passed",
-                errorMessage = "Tests failed",
-            )
-        }
-    }
+        else project.runStep(
+            runStep = Project::runTests,
+            successMessage = "Tests passed",
+            errorMessage = "Tests failed",
+        )
 
-    private fun deploy(project: Project, tests: StepResult): StepResult {
-
-        return if (tests.failed()) {
+    private fun deploy(project: Project, tests: StepResult): StepResult =
+        if (tests.failed())
             StepResult.failingSilently()
-        } else {
-            project.runStep(
-                runStep = Project::deploy,
-                successMessage = "Deployment successful",
-                errorMessage = "Deployment failed",
-            )
-        }
-
-    }
+        else project.runStep(
+            runStep = Project::deploy,
+            successMessage = "Deployment successful",
+            errorMessage = "Deployment failed",
+        )
 
     private fun Project.runStep(
         runStep: (Project) -> String,
         successMessage: String,
         errorMessage: String
     ): StepResult =
-        if (SUCCESS == runStep(this)) {
+        if (runStep(this) == SUCCESS)
             StepResult.succeeding(successMessage, log)
-        } else {
+        else
             StepResult.failing(errorMessage, log)
-        }
 
     private fun summary(tests: StepResult, deploy: StepResult): StepResult =
         if (config.emailDisabled())
             StepResult.succeeding("Email disabled", log)
-        else sendEmailSummary(tests, deploy)
+        else
+            sendEmailSummary(tests, deploy)
 
     private fun sendEmailSummary(tests: StepResult, deploy: StepResult): StepResult {
         log.info("Sending email")
