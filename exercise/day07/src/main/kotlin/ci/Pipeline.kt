@@ -8,23 +8,22 @@ import ci.dependencies.*
 
 private const val SUCCESS = "success"
 
+// Read code to try understanding what it does
+
+// Code seems to have 3 groups of behaviour
+// - tests
+// - deploy (depends on tests)
+// - send email (depends on both test and deploy or test only)
+// ✅ Challenge of day 2: Your code can only have one level of indentation.
+// ✅ Challenge of day 3: One dot per line.
+// ✅ Challenge of day 1: Make your production code easier to understand.
 class Pipeline(
     private val config: Config,
     private val emailer: Emailer,
     private val log: Logger
 ) {
 
-    // Read code to try understanding what it does
-
-    // Code seems to have 3 groups of behaviour
-    // - tests
-    // - deploy (depends on tests)
-    // - send email (depends on both test and deploy or test only)
     fun run(project: Project) {
-
-        // ✅ Challenge of day 2: Your code can only have one level of indentation.
-        // ✅ Challenge of day 3: One dot per line.
-        // ✅ Challenge of day 1: Make your production code easier to understand.
 
         val testsResult = test(project)
         testsResult.log()
