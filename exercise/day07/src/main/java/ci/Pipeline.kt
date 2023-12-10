@@ -13,11 +13,6 @@ class Pipeline(
     private val log: Logger
 ) {
 
-    // TODO:
-    //   Challenge of day 7: Simplify the run method by extracting the right behavior.
-    //   May your crafting journey bring new challenges!
-    //  💡HINT: Use all the techniques you've learned this week.
-
     // Read code to try understand what it does
 
     // Code seems to have 3 groups of behaviour
