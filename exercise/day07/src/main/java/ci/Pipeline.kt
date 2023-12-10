@@ -36,22 +36,41 @@ class Pipeline(
         }
     }
 
-    private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
-        if (!testsPassed) return false
-        return runStepDeploy(project)
-    }
-
-    private fun runStepDeploy(project: Project): Boolean {
-        // Magic string
-        val deployStepStatus = project.deploy()
-
-        if (SUCCESS != deployStepStatus) {
-            log.error("Deployment failed")
-            return false
-        } else {
-            log.info("Deployment successful")
+    private fun runJobTest(project: Project): Boolean {
+        if (project.hasNoTests()) {
+            log.info("No tests")
             return true
         }
+        return runStepTests(project, "Tests failed", "Tests passed") { project -> project.runTests() }
+    }
+
+    private fun runStepTests(project: Project, errorMessage: String, successMessage: String, s: (Project) -> String): Boolean {
+        return runStep(s, project, errorMessage, successMessage)
+    }
+
+    private fun runStepDeploy(project: Project, errorMessage: String, successMessage: String, s: (Project) -> String): Boolean {
+        return runStep(s, project, errorMessage, successMessage)
+    }
+
+    private fun runStep(
+        s: (Project) -> String,
+        project: Project,
+        errorMessage: String,
+        successMessage: String
+    ): Boolean {
+        val onStepSuccess = SUCCESS == s(project)
+        if (!onStepSuccess) {
+            log.error(errorMessage)
+            return false
+        } else {
+            log.info(successMessage)
+            return true
+        }
+    }
+
+    private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
+        if (!testsPassed) return false
+        return runStepDeploy(project, "Deployment failed", "Deployment successful") { project -> project.deploy() }
     }
 
     private fun runJobSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
@@ -59,12 +78,13 @@ class Pipeline(
             log.info("Email disabled")
             return
         }
-        runStepReport(onTestJobSuccess, onDeployJobSuccess)
+        runStepSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
-    private fun Config.emailDisabled() = !this.sendEmailSummary()
+    private fun Config.emailDisabled() =
+        !this.sendEmailSummary()
 
-    private fun runStepReport(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
+    private fun runStepSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
         log.info("Sending email")
         if (!onTestJobSuccess) {
             emailer.send("Tests failed")
@@ -78,24 +98,5 @@ class Pipeline(
         return
     }
 
-    private fun runJobTest(project: Project): Boolean {
-        if (project.hasNoTests()) {
-            log.info("No tests")
-            return true
-        }
-        return runStepTests(project)
-    }
-
-    private fun runStepTests(project: Project): Boolean {
-        // Magic string
-        // Side effect
-        val onTestsStepSuccess = SUCCESS == project.runTests() // Side effect
-        if (!onTestsStepSuccess) {
-            log.error("Tests failed")
-            return false
-        }
-        log.info("Tests passed")
-        return true
-    }
 
 }
