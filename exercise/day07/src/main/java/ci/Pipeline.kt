@@ -1,5 +1,9 @@
 package ci
 
+import ci.StepResult.Companion.fail
+import ci.StepResult.Companion.failSilently
+import ci.StepResult.Companion.succeed
+import ci.StepResult.Companion.succeedSilently
 import ci.dependencies.*
 
 private const val SUCCESS = "success"
@@ -34,21 +38,21 @@ class Pipeline(
 
     private fun test(project: Project): StepResult =
         when {
-            project.hasNoTests() -> StepResult.succeed("No tests", log)
-            project.runTests() == SUCCESS -> StepResult.succeed("Tests passed", log)
-            else -> StepResult.fail("Tests failed", log)
+            project.hasNoTests() -> succeed("No tests", log)
+            project.runTests() == SUCCESS -> succeed("Tests passed", log)
+            else -> fail("Tests failed", log)
         }
 
     private fun deploy(project: Project, tests: StepResult): StepResult =
         when {
-            tests.failed() -> StepResult.failSilently()
-            project.deploy() == SUCCESS -> StepResult.succeed("Deployment successful", log)
-            else -> StepResult.fail("Deployment failed", log)
+            tests.failed() -> failSilently()
+            project.deploy() == SUCCESS -> succeed("Deployment successful", log)
+            else -> fail("Deployment failed", log)
         }
 
     private fun summary(tests: StepResult, deploy: StepResult): StepResult =
         when {
-            config.emailDisabled() -> StepResult.succeed("Email disabled", log)
+            config.emailDisabled() -> succeed("Email disabled", log)
             else -> sendEmailSummary(tests, deploy)
         }
 
@@ -63,18 +67,8 @@ class Pipeline(
 
     private fun sendEmail(message: String): StepResult {
         emailer.send(message)
-        return StepResult.succeedSilently()
+        return succeedSilently()
     }
 
 }
 
-class NoopLogger : Logger {
-
-    override fun info(message: String) {
-        // Does nothing
-    }
-
-    override fun error(message: String) {
-        // Does nothing
-    }
-}
