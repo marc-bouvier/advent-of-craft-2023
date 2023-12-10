@@ -6,11 +6,13 @@ import ci.dependencies.Logger
 import ci.dependencies.Project
 
 class Pipeline(
-    private val config: Config,
-    private val emailer: Emailer,
-    private val log: Logger
+    private val config: Config, private val emailer: Emailer, private val log: Logger
 ) {
 
+    // TODO:
+    //   Challenge of day 7: Simplify the run method by extracting the right behavior.
+    //   May your crafting journey bring new challenges!
+    //  💡HINT: Use all the techniques you've learned this week.
     fun run(project: Project) {
         val deploySuccessful: Boolean
         val testsPassed: Boolean = if (project.hasTests()) {

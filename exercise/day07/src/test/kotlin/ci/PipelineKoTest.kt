@@ -11,6 +11,12 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 
+// TODO:
+//  - migrate to kotest with mockk
+//  - 💡HINT: Use all the techniques you've learned this week.
+
+
+// 🛠️ Find and replace (regex mode)
 // \`when\`\((.*)\)\.thenReturn\((.*)\)
 //    every{ $1 } returns $2
 

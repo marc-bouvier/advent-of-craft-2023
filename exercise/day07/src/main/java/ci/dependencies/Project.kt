@@ -2,7 +2,7 @@ package ci.dependencies
 
 class Project private constructor(
     private val buildsSuccessfully: Boolean,
-    private val testStatus: TestStatus? // TODO: what it the meaning of null value here?
+    private val testStatus: TestStatus? // What it the meaning of null value here?
                                         //   Could we make it non nullable?
                                         //   Should we make a builder attribute non-nullable
                                         //   Could we use a default ? Should we ?
