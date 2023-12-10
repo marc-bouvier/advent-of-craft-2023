@@ -24,11 +24,9 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        runJobTest(project).let { onTestJobSucces ->
-            runJobDeploy(project, onTestJobSucces).let { onDeployJobSuccess ->
-                runJobSendEmail(onTestJobSucces, onDeployJobSuccess)
-            }
-        }
+        val onTestJobSuccess = runJobTest(project)
+        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess)
+        runJobSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
     private fun runJobTest(project: Project): Boolean {
