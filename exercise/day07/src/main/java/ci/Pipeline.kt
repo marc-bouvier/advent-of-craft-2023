@@ -25,31 +25,35 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        val testsResult = runJobTest(project).log()
-        val deployResult = runJobDeploy(project, testsResult).log()
-        runJobSendEmail(testsResult, deployResult).log()
+        val testsResult = test(project).log()
+        val deployResult = deploy(project, testsResult).log()
+        summary(testsResult, deployResult).log()
     }
 
-    private fun runJobTest(project: Project): StepResult {
-
-        if (project.hasNoTests()) return StepResult.succeeding("No tests", log)
-
-        return project.runStep(
-            runStep = Project::runTests,
-            successMessage = "Tests passed",
-            errorMessage = "Tests failed",
-        )
+    private fun test(project: Project): StepResult {
+        return if (project.hasNoTests()) {
+            StepResult.succeeding("No tests", log)
+        } else {
+            project.runStep(
+                runStep = Project::runTests,
+                successMessage = "Tests passed",
+                errorMessage = "Tests failed",
+            )
+        }
     }
 
-    private fun runJobDeploy(project: Project, tests: StepResult): StepResult {
+    private fun deploy(project: Project, tests: StepResult): StepResult {
 
-        if (tests.failed()) return StepResult.failingSilently()
+        return if (tests.failed()) {
+            StepResult.failingSilently()
+        } else {
+            project.runStep(
+                runStep = Project::deploy,
+                successMessage = "Deployment successful",
+                errorMessage = "Deployment failed",
+            )
+        }
 
-        return project.runStep(
-            runStep = Project::deploy,
-            successMessage = "Deployment successful",
-            errorMessage = "Deployment failed",
-        )
     }
 
     private fun Project.runStep(
@@ -58,16 +62,14 @@ class Pipeline(
         errorMessage: String
     ): StepResult {
 
-        val onStepSuccess = SUCCESS == runStep(this)
-
-        return if (onStepSuccess) {
+        return if (SUCCESS == runStep(this)) {
             StepResult.succeeding(successMessage, log)
         } else {
             StepResult.failing(errorMessage, log)
         }
     }
 
-    private fun runJobSendEmail(tests: StepResult, deploy: StepResult): StepResult {
+    private fun summary(tests: StepResult, deploy: StepResult): StepResult {
 
         if (config.emailDisabled()) {
             return StepResult.succeeding("Email disabled", log)
