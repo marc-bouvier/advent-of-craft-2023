@@ -33,38 +33,24 @@ class Pipeline(
     }
 
     private fun test(project: Project): StepResult =
-        if (project.hasNoTests())
-            StepResult.succeeding("No tests", log)
-        else project.runStep(
-            runStep = Project::runTests,
-            successMessage = "Tests passed",
-            errorMessage = "Tests failed",
-        )
+        when {
+            project.hasNoTests() -> StepResult.succeeding("No tests", log)
+            project.runTests() == SUCCESS -> StepResult.succeeding("Tests passed", log)
+            else -> StepResult.failing("Tests failed", log)
+        }
 
     private fun deploy(project: Project, tests: StepResult): StepResult =
-        if (tests.failed())
-            StepResult.failingSilently()
-        else project.runStep(
-            runStep = Project::deploy,
-            successMessage = "Deployment successful",
-            errorMessage = "Deployment failed",
-        )
-
-    private fun Project.runStep(
-        runStep: (Project) -> String,
-        successMessage: String,
-        errorMessage: String
-    ): StepResult =
-        if (runStep(this) == SUCCESS)
-            StepResult.succeeding(successMessage, log)
-        else
-            StepResult.failing(errorMessage, log)
+        when {
+            tests.failed() -> StepResult.failingSilently()
+            project.deploy() == SUCCESS -> StepResult.succeeding("Deployment successful", log)
+            else -> StepResult.failing("Deployment failed", log)
+        }
 
     private fun summary(tests: StepResult, deploy: StepResult): StepResult =
-        if (config.emailDisabled())
-            StepResult.succeeding("Email disabled", log)
-        else
-            sendEmailSummary(tests, deploy)
+        when {
+            config.emailDisabled() -> StepResult.succeeding("Email disabled", log)
+            else -> sendEmailSummary(tests, deploy)
+        }
 
     private fun sendEmailSummary(tests: StepResult, deploy: StepResult): StepResult {
         log.info("Sending email")
