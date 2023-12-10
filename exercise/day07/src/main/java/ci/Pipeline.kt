@@ -1,9 +1,6 @@
 package ci
 
-import ci.dependencies.Config
-import ci.dependencies.Emailer
-import ci.dependencies.Logger
-import ci.dependencies.Project
+import ci.dependencies.*
 
 private const val SUCCESS = "success"
 
@@ -60,42 +57,30 @@ class Pipeline(
         runStep: (Project) -> String,
         successMessage: String,
         errorMessage: String
-    ): StepResult {
-
-        return if (SUCCESS == runStep(this)) {
+    ): StepResult =
+        if (SUCCESS == runStep(this)) {
             StepResult.succeeding(successMessage, log)
         } else {
             StepResult.failing(errorMessage, log)
         }
-    }
 
-    private fun summary(tests: StepResult, deploy: StepResult): StepResult {
+    private fun summary(tests: StepResult, deploy: StepResult): StepResult =
+        if (config.emailDisabled())
+            StepResult.succeeding("Email disabled", log)
+        else sendEmailSummary(tests, deploy)
 
-        if (config.emailDisabled()) {
-            return StepResult.succeeding("Email disabled", log)
-        }
-
+    private fun sendEmailSummary(tests: StepResult, deploy: StepResult): StepResult {
         log.info("Sending email")
-        return sendEmail(tests, deploy)
+        return when {
+            tests.failed() -> sendEmail("Tests failed")
+            deploy.succeeded() -> sendEmail("Deployment completed successfully")
+            else -> sendEmail("Deployment failed")
+        }
     }
 
-    private fun Config.emailDisabled() =
-        !this.sendEmailSummary()
-
-    private fun sendEmail(tests: StepResult, deploy: StepResult): StepResult {
-
-        if (tests.failed()) {
-            emailer.send("Tests failed")
-            return StepResult.succeedingSilently()
-        }
-
-        if (deploy.succeeded()) {
-            emailer.send("Deployment completed successfully")
-            return StepResult.succeedingSilently()
-        }
-
-        emailer.send("Deployment failed")
-        return StepResult.failingSilently()
+    private fun sendEmail(message: String): StepResult {
+        emailer.send(message)
+        return StepResult.succeedingSilently()
     }
 
 }
