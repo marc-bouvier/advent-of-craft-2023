@@ -14,23 +14,23 @@ import org.junit.jupiter.api.Assertions.assertEquals
 // \`when\`\((.*)\)\.thenReturn\((.*)\)
 //    every{ $1 } returns $2
 
-class PipelineKoTest : StringSpec ({
+class PipelineKoTest : StringSpec({
 
-     val log = CapturingLogger()
+    lateinit var log: CapturingLogger
 
-     val config = mockk<Config>()
-     val emailer = mockk<Emailer>()
-     lateinit var pipeline: Pipeline
+    val config = mockk<Config>()
+    val emailer = mockk<Emailer>()
+    lateinit var pipeline: Pipeline
 
-     beforeEach {
-         pipeline = Pipeline(config, emailer, log)
-     }
-
+    beforeEach {
+        log = CapturingLogger()
+        pipeline = Pipeline(config, emailer, log)
+    }
 
     "test_mockk_framework"() {
 
-        every{config.sendEmailSummary()} returns true
-        justRun{emailer.send("Deployment completed successfully")}
+        every { config.sendEmailSummary() } returns true
+        justRun { emailer.send("Deployment completed successfully") }
         val project = Project.builder()
             .setTestStatus(PASSING_TESTS)
             .setDeploysSuccessfully(true)
@@ -45,7 +45,7 @@ class PipelineKoTest : StringSpec ({
                 "INFO: Sending email"
             ), log.loggedLines
         )
-       verify{emailer.send("Deployment completed successfully")}
+        verify { emailer.send("Deployment completed successfully") }
     }
 
 //    @Test
