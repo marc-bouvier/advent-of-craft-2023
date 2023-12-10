@@ -31,7 +31,6 @@ class Pipeline(
 
     private fun runJobTest(project: Project): Boolean {
         if (project.hasNoTests()) {
-//            log.info("No tests")
             return StepResult(true, "No tests", log).log().success
         }
         return project.runStep(
@@ -66,11 +65,9 @@ class Pipeline(
     ): Boolean {
         val onStepSuccess = SUCCESS == runStep(this)
         if (!onStepSuccess) {
-            log.error(errorMessage)
-            return false
+            return StepResult(false,errorMessage,log).log().success
         } else {
-            log.info(successMessage)
-            return true
+            return StepResult(true,successMessage,log).log().success
         }
     }
 
