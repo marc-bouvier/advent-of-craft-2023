@@ -24,9 +24,9 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        val onTestJobSuccess = runJobTest(project).log()
-        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess).log()
-        runJobSendEmail(onTestJobSuccess, onDeployJobSuccess)
+        val testsResult = runJobTest(project).log()
+        val deployResult = runJobDeploy(project, testsResult).log()
+        runJobSendEmail(testsResult, deployResult)
     }
 
     private fun runJobTest(project: Project): StepResult {
@@ -47,10 +47,16 @@ class Pipeline(
             else log.error(message)
             return this
         }
+
+        companion object {
+            fun failingSilently(): StepResult {
+                return StepResult(false, "", NoopLogger())
+            }
+        }
     }
 
     private fun runJobDeploy(project: Project, testsPassed: StepResult): StepResult {
-        if (!testsPassed.success) return StepResult(false, "", NoopLogger())
+        if (!testsPassed.success) return StepResult.failingSilently()
 
         return project.runStep(
             runStep = Project::deploy,
@@ -65,26 +71,26 @@ class Pipeline(
         errorMessage: String
     ): StepResult {
         val onStepSuccess = SUCCESS == runStep(this)
-        if (!onStepSuccess) {
-            return StepResult(false, errorMessage, log)
+        return if (onStepSuccess) {
+            StepResult(true, successMessage, log)
         } else {
-            return StepResult(true, successMessage, log)
+            StepResult(false, errorMessage, log)
         }
     }
 
-    private fun runJobSendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
+    private fun runJobSendEmail(testsResult: StepResult, deployResut: StepResult) {
         if (config.emailDisabled()) {
             StepResult(true, "Email disabled", log).log()
             return
         }
         log.info("Sending email")
-        runStepSendEmail(onTestJobSuccess, onDeployJobSuccess)
+        sendEmail(testsResult, deployResut)
     }
 
     private fun Config.emailDisabled() =
         !this.sendEmailSummary()
 
-    private fun runStepSendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
+    private fun sendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
         if (!onTestJobSuccess.success) {
             emailer.send("Tests failed")
             return
