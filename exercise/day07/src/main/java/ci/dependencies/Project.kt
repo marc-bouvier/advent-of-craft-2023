@@ -2,11 +2,14 @@ package ci.dependencies
 
 class Project private constructor(
     private val buildsSuccessfully: Boolean,
-    private val testStatus: TestStatus?
+    private val testStatus: TestStatus
+
     // What is the meaning of null value here?
     //   Could we make it non nullable?
     //   Should we make a builder attribute non-nullable
     //   Could we use a default ? Should we ?
+
+
 ) {
 
     fun hasTests(): Boolean {
@@ -27,8 +30,10 @@ class Project private constructor(
 
     class ProjectBuilder {
         private var buildsSuccessfully = false
-        private var testStatus: TestStatus? = null
-        fun setTestStatus(testStatus: TestStatus?): ProjectBuilder {
+        // EDIT : running characterization test shown that the current meanin of null is FAILING_TESTS
+        // Default value null was replaced with FAILING_TESTS
+        private var testStatus: TestStatus = TestStatus.FAILING_TESTS
+        fun setTestStatus(testStatus: TestStatus): ProjectBuilder {
             this.testStatus = testStatus
             return this
         }

@@ -31,32 +31,40 @@ class Pipeline(
 
     private fun runJobTest(project: Project): Boolean {
         if (project.hasNoTests()) {
-            log.info("No tests")
-            return true
+//            log.info("No tests")
+            return StepResult(true, "No tests", log).log().success
         }
         return project.runStep(
-            step = Project::runTests,
+            runStep = Project::runTests,
             successMessage = "Tests passed",
             errorMessage = "Tests failed",
         )
+    }
+
+    class StepResult(val success: Boolean, private val message: String, private val log: Logger) {
+        fun log(): StepResult {
+            if (success) log.info(message)
+            else log.error(message)
+            return this
+        }
     }
 
     private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
         if (!testsPassed) return false
 
         return project.runStep(
-            step = Project::deploy,
+            runStep = Project::deploy,
             successMessage = "Deployment successful",
             errorMessage = "Deployment failed",
         )
     }
 
     private fun Project.runStep(
-        step: (Project) -> String,
+        runStep: (Project) -> String,
         successMessage: String,
         errorMessage: String
     ): Boolean {
-        val onStepSuccess = SUCCESS == step(this)
+        val onStepSuccess = SUCCESS == runStep(this)
         if (!onStepSuccess) {
             log.error(errorMessage)
             return false
