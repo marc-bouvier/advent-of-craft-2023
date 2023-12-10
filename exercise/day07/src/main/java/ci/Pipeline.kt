@@ -32,7 +32,7 @@ class Pipeline(
 
     private fun runJobTest(project: Project): StepResult {
 
-        if (project.hasNoTests()) return StepResult(true, "No tests", log)
+        if (project.hasNoTests()) return StepResult.succeeding("No tests", log)
 
         return project.runStep(
             runStep = Project::runTests,
@@ -61,41 +61,16 @@ class Pipeline(
         val onStepSuccess = SUCCESS == runStep(this)
 
         return if (onStepSuccess) {
-            StepResult(true, successMessage, log)
+            StepResult.succeeding(successMessage, log)
         } else {
-            StepResult(false, errorMessage, log)
-        }
-    }
-
-    class StepResult(
-        private val success: Boolean, // Maybe enum/value object or builder?
-        private val message: String,
-        private val log: Logger
-    ) {
-
-        fun succeeded() = success
-        fun failed() = !success
-        fun log(): StepResult {
-            if (success) log.info(message)
-            else log.error(message)
-            return this
-        }
-
-        companion object {
-            fun failingSilently(): StepResult {
-                return StepResult(false, "", NoopLogger())
-            }
-
-            fun succeedingSilently(): StepResult {
-                return StepResult(true, "", NoopLogger())
-            }
+            StepResult.failing(errorMessage, log)
         }
     }
 
     private fun runJobSendEmail(tests: StepResult, deploy: StepResult): StepResult {
 
         if (config.emailDisabled()) {
-            return StepResult(true, "Email disabled", log).log()
+            return StepResult.succeeding("Email disabled", log)
         }
 
         log.info("Sending email")
