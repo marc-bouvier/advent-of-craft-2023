@@ -22,6 +22,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 // 🛠️ Find and replace (regex mode)
 // verify\((.*)\)(.*)\)
 // verify{ $1$2) }
+
+// fun (.*)\(\) \{
+// "$1" {
 class PipelineKoTest : StringSpec({
 
     lateinit var log: CapturingLogger
@@ -77,9 +80,9 @@ class PipelineKoTest : StringSpec({
         )
         verify{ emailer.send("Deployment completed successfully") }
     }
-//
-//    
-//    fun project_with_tests_that_deploys_successfully_without_email_notification() {
+
+
+//    "project_with_tests_that_deploys_successfully_without_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
@@ -100,7 +103,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_without_tests_that_deploys_successfully_with_email_notification() {
+//    "project_without_tests_that_deploys_successfully_with_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
@@ -121,7 +124,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_without_tests_that_deploys_successfully_without_email_notification() {
+//    "project_without_tests_that_deploys_successfully_without_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //
@@ -142,7 +145,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_with_tests_that_fail_with_email_notification() {
+//    "project_with_tests_that_fail_with_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
@@ -161,7 +164,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_with_tests_that_fail_without_email_notification() {
+//    "project_with_tests_that_fail_without_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
@@ -180,7 +183,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_with_tests_and_failing_build_with_email_notification() {
+//    "project_with_tests_and_failing_build_with_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
@@ -201,7 +204,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_with_tests_and_failing_build_without_email_notification() {
+//    "project_with_tests_and_failing_build_without_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
@@ -222,7 +225,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_without_tests_and_failing_build_with_email_notification() {
+//    "project_without_tests_and_failing_build_with_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns true
 //        val project = Project.builder()
@@ -243,7 +246,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun project_without_tests_and_failing_build_without_email_notification() {
+//    "project_without_tests_and_failing_build_without_email_notification" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
@@ -264,7 +267,7 @@ class PipelineKoTest : StringSpec({
 //    }
 //
 //    
-//    fun characterization_project_with_test_status_is_null() {
+//    "characterization_project_with_test_status_is_null" {
 //
 //        every{ config.sendEmailSummary() } returns false
 //        val project = Project.builder()
