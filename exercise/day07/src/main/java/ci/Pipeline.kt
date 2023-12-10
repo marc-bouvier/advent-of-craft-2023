@@ -41,13 +41,17 @@ class Pipeline(
             log.info("No tests")
             return true
         }
-        return project.runStep(Project::runTests, errorMessage = "Tests failed", successMessage = "Tests passed")
+        return project.runStep(
+            step = Project::runTests,
+            successMessage = "Tests passed",
+            errorMessage = "Tests failed",
+        )
     }
 
     private fun Project.runStep(
-        step: (Project) -> String,
         errorMessage: String,
-        successMessage: String
+        successMessage: String,
+        step: (Project) -> String
     ): Boolean {
         val onStepSuccess = SUCCESS == step(this)
         if (!onStepSuccess) {
@@ -63,8 +67,8 @@ class Pipeline(
         if (!testsPassed) return false
         return project.runStep(
             step = Project::deploy,
+            successMessage = "Deployment successful",
             errorMessage = "Deployment failed",
-            successMessage = "Deployment successful"
         )
     }
 
