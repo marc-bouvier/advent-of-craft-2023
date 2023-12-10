@@ -25,7 +25,7 @@ class Pipeline(
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
         val onTestJobSuccess = runJobTest(project).log().success
-        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess)
+        val onDeployJobSuccess = runJobDeploy(project, onTestJobSuccess).log().success
         runJobSendEmail(onTestJobSuccess, onDeployJobSuccess)
     }
 
@@ -41,6 +41,7 @@ class Pipeline(
     }
 
     class StepResult(val success: Boolean, private val message: String, private val log: Logger) {
+
         fun log(): StepResult {
             if (success) log.info(message)
             else log.error(message)
@@ -48,14 +49,14 @@ class Pipeline(
         }
     }
 
-    private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
-        if (!testsPassed) return false
+    private fun runJobDeploy(project: Project, testsPassed: Boolean): StepResult {
+        if (!testsPassed) return StepResult(false, "", NoopLogger())
 
         return project.runStep(
             runStep = Project::deploy,
             successMessage = "Deployment successful",
             errorMessage = "Deployment failed",
-        ).log().success
+        )
     }
 
     private fun Project.runStep(
@@ -96,5 +97,16 @@ class Pipeline(
         return
     }
 
+
+}
+
+class NoopLogger : Logger {
+    override fun info(message: String) {
+        // Does nothing
+    }
+
+    override fun error(message: String) {
+        // Does nothing
+    }
 
 }
