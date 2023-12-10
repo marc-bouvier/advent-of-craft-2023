@@ -34,21 +34,21 @@ class Pipeline(
 
     private fun test(project: Project): StepResult =
         when {
-            project.hasNoTests() -> StepResult.succeeding("No tests", log)
-            project.runTests() == SUCCESS -> StepResult.succeeding("Tests passed", log)
-            else -> StepResult.failing("Tests failed", log)
+            project.hasNoTests() -> StepResult.succeed("No tests", log)
+            project.runTests() == SUCCESS -> StepResult.succeed("Tests passed", log)
+            else -> StepResult.fail("Tests failed", log)
         }
 
     private fun deploy(project: Project, tests: StepResult): StepResult =
         when {
-            tests.failed() -> StepResult.failingSilently()
-            project.deploy() == SUCCESS -> StepResult.succeeding("Deployment successful", log)
-            else -> StepResult.failing("Deployment failed", log)
+            tests.failed() -> StepResult.failSilently()
+            project.deploy() == SUCCESS -> StepResult.succeed("Deployment successful", log)
+            else -> StepResult.fail("Deployment failed", log)
         }
 
     private fun summary(tests: StepResult, deploy: StepResult): StepResult =
         when {
-            config.emailDisabled() -> StepResult.succeeding("Email disabled", log)
+            config.emailDisabled() -> StepResult.succeed("Email disabled", log)
             else -> sendEmailSummary(tests, deploy)
         }
 
@@ -63,7 +63,7 @@ class Pipeline(
 
     private fun sendEmail(message: String): StepResult {
         emailer.send(message)
-        return StepResult.succeedingSilently()
+        return StepResult.succeedSilently()
     }
 
 }

@@ -20,19 +20,19 @@ class StepResult(
 
     companion object {
 
-        fun failingSilently(): StepResult {
+        fun failSilently(): StepResult {
             return StepResult(success = false, log = NoopLogger())
         }
 
-        fun succeedingSilently(): StepResult {
+        fun succeedSilently(): StepResult {
             return StepResult(success = true, log = NoopLogger())
         }
 
-        fun succeeding(message: String, log: Logger): StepResult {
+        fun succeed(message: String, log: Logger): StepResult {
             return StepResult(success = true, message = message, log = log)
         }
 
-        fun failing(message: String, log: Logger): StepResult {
+        fun fail(message: String, log: Logger): StepResult {
             return StepResult(success = false, message = message, log = log)
         }
     }
