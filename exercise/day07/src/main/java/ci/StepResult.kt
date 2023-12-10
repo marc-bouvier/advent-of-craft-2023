@@ -9,7 +9,9 @@ class StepResult(
 ) {
 
     fun succeeded() = success
+
     fun failed() = !success
+
     fun log(): StepResult {
         if (success) log.info(message)
         else log.error(message)
@@ -17,6 +19,7 @@ class StepResult(
     }
 
     companion object {
+
         fun failingSilently(): StepResult {
             return StepResult(success = false, log = NoopLogger())
         }
