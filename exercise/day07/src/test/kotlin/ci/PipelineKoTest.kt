@@ -15,11 +15,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 //  - migrate to kotest with mockk
 //  - 💡HINT: Use all the techniques you've learned this week.
 
-
 // 🛠️ Find and replace (regex mode)
 // \`when\`\((.*)\)\.thenReturn\((.*)\)
 //    every{ $1 } returns $2
 
+// 🛠️ Find and replace (regex mode)
+// verify\((.*)\)(.*)\)
+// verify{ $1$2) }
 class PipelineKoTest : StringSpec({
 
     lateinit var log: CapturingLogger
@@ -54,28 +56,29 @@ class PipelineKoTest : StringSpec({
         verify { emailer.send("Deployment completed successfully") }
     }
 
-//    @Test
-//    fun project_with_tests_that_deploys_successfully_with_email_notification() {
+
+    
+     "project_with_tests_that_deploys_successfully_with_email_notification"() {
+
+        every{ config.sendEmailSummary() } returns true
+        val project = Project.builder()
+            .setTestStatus(PASSING_TESTS)
+            .setDeploysSuccessfully(true)
+            .build()
+
+        pipeline.run(project)
+
+        assertEquals(
+            mutableListOf(
+                "INFO: Tests passed",
+                "INFO: Deployment successful",
+                "INFO: Sending email"
+            ), log.loggedLines
+        )
+        verify{ emailer.send("Deployment completed successfully") }
+    }
 //
-//        every{ config.sendEmailSummary() } returns true
-//        val project = Project.builder()
-//            .setTestStatus(PASSING_TESTS)
-//            .setDeploysSuccessfully(true)
-//            .build()
-//
-//        pipeline.run(project)
-//
-//        assertEquals(
-//            mutableListOf(
-//                "INFO: Tests passed",
-//                "INFO: Deployment successful",
-//                "INFO: Sending email"
-//            ), log.loggedLines
-//        )
-//        verify(emailer).send("Deployment completed successfully")
-//    }
-//
-//    @Test
+//    
 //    fun project_with_tests_that_deploys_successfully_without_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -93,10 +96,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled"
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 //
-//    @Test
+//    
 //    fun project_without_tests_that_deploys_successfully_with_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns true
@@ -114,10 +117,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Sending email"
 //            ), log.loggedLines
 //        )
-//        verify(emailer).send("Deployment completed successfully")
+//        verify{ emailer.send("Deployment completed successfully") }
 //    }
 //
-//    @Test
+//    
 //    fun project_without_tests_that_deploys_successfully_without_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -135,10 +138,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled"
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 //
-//    @Test
+//    
 //    fun project_with_tests_that_fail_with_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns true
@@ -154,10 +157,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Sending email"
 //            ), log.loggedLines
 //        )
-//        verify(emailer).send("Tests failed")
+//        verify{ emailer.send("Tests failed") }
 //    }
 //
-//    @Test
+//    
 //    fun project_with_tests_that_fail_without_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -173,10 +176,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled"
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 //
-//    @Test
+//    
 //    fun project_with_tests_and_failing_build_with_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns true
@@ -194,10 +197,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Sending email"
 //            ), log.loggedLines
 //        )
-//        verify(emailer).send("Deployment failed")
+//        verify{ emailer.send("Deployment failed") }
 //    }
 //
-//    @Test
+//    
 //    fun project_with_tests_and_failing_build_without_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -215,10 +218,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled"
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 //
-//    @Test
+//    
 //    fun project_without_tests_and_failing_build_with_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns true
@@ -236,10 +239,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Sending email"
 //            ), log.loggedLines
 //        )
-//        verify(emailer).send("Deployment failed")
+//        verify{ emailer.send("Deployment failed") }
 //    }
 //
-//    @Test
+//    
 //    fun project_without_tests_and_failing_build_without_email_notification() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -257,10 +260,10 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled"
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 //
-//    @Test
+//    
 //    fun characterization_project_with_test_status_is_null() {
 //
 //        every{ config.sendEmailSummary() } returns false
@@ -276,6 +279,6 @@ class PipelineKoTest : StringSpec({
 //                "INFO: Email disabled",
 //            ), log.loggedLines
 //        )
-//        verify(emailer, never()).send(any())
+//        verify{ emailer, never()).send(any() }
 //    }
 })
