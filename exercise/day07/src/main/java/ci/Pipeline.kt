@@ -41,10 +41,20 @@ class Pipeline(
         )
     }
 
+    private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
+        if (!testsPassed) return false
+
+        return project.runStep(
+            step = Project::deploy,
+            successMessage = "Deployment successful",
+            errorMessage = "Deployment failed",
+        )
+    }
+
     private fun Project.runStep(
-        errorMessage: String,
+        step: (Project) -> String,
         successMessage: String,
-        step: (Project) -> String
+        errorMessage: String
     ): Boolean {
         val onStepSuccess = SUCCESS == step(this)
         if (!onStepSuccess) {
@@ -54,15 +64,6 @@ class Pipeline(
             log.info(successMessage)
             return true
         }
-    }
-
-    private fun runJobDeploy(project: Project, testsPassed: Boolean): Boolean {
-        if (!testsPassed) return false
-        return project.runStep(
-            step = Project::deploy,
-            successMessage = "Deployment successful",
-            errorMessage = "Deployment failed",
-        )
     }
 
     private fun runJobSendEmail(onTestJobSuccess: Boolean, onDeployJobSuccess: Boolean) {
