@@ -22,10 +22,10 @@ class StepResult private constructor(
 
     companion object {
 
-        fun succeed(message: String, log: Logger): StepResult = StepResult(success = true, message = message, log = log)
-        fun succeedSilently(): StepResult = StepResult(success = true, log = NoopLogger())
+        fun succeed(message: String, log: Logger) = StepResult(success = true, message, log)
+        fun succeedSilently() = StepResult(success = true, log = NoopLogger())
 
-        fun fail(message: String, log: Logger): StepResult = StepResult(success = false, message = message, log = log)
-        fun failSilently(): StepResult = StepResult(success = false, log = NoopLogger())
+        fun fail(message: String, log: Logger) = StepResult(success = false, message, log)
+        fun failSilently() = StepResult(success = false, log = NoopLogger())
     }
 }
