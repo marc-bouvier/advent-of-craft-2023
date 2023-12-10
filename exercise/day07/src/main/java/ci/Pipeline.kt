@@ -20,6 +20,7 @@ class Pipeline(
     // - deploy (depends on tests)
     // - send email (depends on both test and deploy or test only)
     fun run(project: Project) {
+
         // ✅ Challenge of day 2: Your code can only have one level of indentation.
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
@@ -30,9 +31,9 @@ class Pipeline(
     }
 
     private fun runJobTest(project: Project): StepResult {
-        if (project.hasNoTests()) {
-            return StepResult(true, "No tests", log)
-        }
+
+        if (project.hasNoTests()) return StepResult(true, "No tests", log)
+
         return project.runStep(
             runStep = Project::runTests,
             successMessage = "Tests passed",
@@ -40,23 +41,9 @@ class Pipeline(
         )
     }
 
-    class StepResult(val success: Boolean, private val message: String, private val log: Logger) {
+    private fun runJobDeploy(project: Project, tests: StepResult): StepResult {
 
-        fun log(): StepResult {
-            if (success) log.info(message)
-            else log.error(message)
-            return this
-        }
-
-        companion object {
-            fun failingSilently(): StepResult {
-                return StepResult(false, "", NoopLogger())
-            }
-        }
-    }
-
-    private fun runJobDeploy(project: Project, testsPassed: StepResult): StepResult {
-        if (!testsPassed.success) return StepResult.failingSilently()
+        if (tests.failed()) return StepResult.failingSilently()
 
         return project.runStep(
             runStep = Project::deploy,
@@ -70,7 +57,9 @@ class Pipeline(
         successMessage: String,
         errorMessage: String
     ): StepResult {
+
         val onStepSuccess = SUCCESS == runStep(this)
+
         return if (onStepSuccess) {
             StepResult(true, successMessage, log)
         } else {
@@ -78,35 +67,64 @@ class Pipeline(
         }
     }
 
-    private fun runJobSendEmail(testsResult: StepResult, deployResut: StepResult) {
-        if (config.emailDisabled()) {
-            StepResult(true, "Email disabled", log).log()
-            return
+    class StepResult(
+        private val success: Boolean, // Maybe enum/value object or builder?
+        private val message: String,
+        private val log: Logger
+    ) {
+
+        fun succeeded() = success
+        fun failed() = !success
+        fun log(): StepResult {
+            if (success) log.info(message)
+            else log.error(message)
+            return this
         }
+
+        companion object {
+            fun failingSilently(): StepResult {
+                return StepResult(false, "", NoopLogger())
+            }
+
+            fun succeedingSilently(): StepResult {
+                return StepResult(true, "", NoopLogger())
+            }
+        }
+    }
+
+    private fun runJobSendEmail(tests: StepResult, deploy: StepResult): StepResult {
+
+        if (config.emailDisabled()) {
+            return StepResult(true, "Email disabled", log).log()
+        }
+
         log.info("Sending email")
-        sendEmail(testsResult, deployResut)
+        return sendEmail(tests, deploy)
     }
 
     private fun Config.emailDisabled() =
         !this.sendEmailSummary()
 
-    private fun sendEmail(onTestJobSuccess: StepResult, onDeployJobSuccess: StepResult) {
-        if (!onTestJobSuccess.success) {
-            emailer.send("Tests failed")
-            return
-        }
-        if (onDeployJobSuccess.success) {
-            emailer.send("Deployment completed successfully")
-            return
-        }
-        emailer.send("Deployment failed")
-        return
-    }
+    private fun sendEmail(tests: StepResult, deploy: StepResult): StepResult {
 
+        if (tests.failed()) {
+            emailer.send("Tests failed")
+            return StepResult.succeedingSilently()
+        }
+
+        if (deploy.succeeded()) {
+            emailer.send("Deployment completed successfully")
+            return StepResult.succeedingSilently()
+        }
+
+        emailer.send("Deployment failed")
+        return StepResult.failingSilently()
+    }
 
 }
 
 class NoopLogger : Logger {
+
     override fun info(message: String) {
         // Does nothing
     }
@@ -114,5 +132,4 @@ class NoopLogger : Logger {
     override fun error(message: String) {
         // Does nothing
     }
-
 }
