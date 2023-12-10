@@ -10,7 +10,7 @@ class Pipeline(
     private val log: Logger
 ) {
 
-    // Read code to try understand what it does
+    // Read code to try understanding what it does
 
     // Code seems to have 3 groups of behaviour
     // - tests
@@ -22,9 +22,14 @@ class Pipeline(
         // ✅ Challenge of day 3: One dot per line.
         // ✅ Challenge of day 1: Make your production code easier to understand.
 
-        val testsResult = test(project).log()
-        val deployResult = deploy(project, testsResult).log()
-        summary(testsResult, deployResult).log()
+        val testsResult = test(project)
+        testsResult.log()
+
+        val deployResult = deploy(project, testsResult)
+        deployResult.log()
+
+        val summaryResult = summary(testsResult, deployResult)
+        summaryResult.log()
     }
 
     private fun test(project: Project): StepResult =
