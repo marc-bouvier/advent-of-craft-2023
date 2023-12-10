@@ -24,15 +24,9 @@ class Pipeline(
 ) {
 
     fun run(project: Project) {
-
-        val testsResult = test(project)
-        testsResult.log()
-
-        val deployResult = deploy(project, testsResult)
-        deployResult.log()
-
-        val summaryResult = summary(testsResult, deployResult)
-        summaryResult.log()
+        val testsResult: StepResult = test(project).log()
+        val deployResult: StepResult = deploy(project, testsResult).log()
+        summary(testsResult, deployResult).log()
     }
 
     private fun test(project: Project): StepResult =
