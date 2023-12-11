@@ -16,13 +16,15 @@ import io.kotest.matchers.shouldBe
 //
 //A gentle reminder, the steps to use the TDD magic can be applied this way:
 //
+
+// alias tcr="mvn test && git commit -am working || git reset --hard"
+// tcr
+class PasswordValidationTest : StringSpec({
 //    🔴 Write a failing test
 //    🟢 Make the test pass
 //    🔵 Refactor your code
-//The magic will continue to work only with one condition:
-//**if at any time, your tests are not passing, you need to revert your latest change.**
-class PasswordValidationTest : StringSpec({
-"test"{
+
+    "test"{
     "a" shouldBe "a"
 }
 })
