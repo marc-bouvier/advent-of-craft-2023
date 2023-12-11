@@ -4,12 +4,12 @@ import io.kotest.matchers.shouldBe
 // alias tcr="mvn test && git commit -am working || git reset --hard"
 // tcr
 class PasswordValidationTest : StringSpec({
-//    🔴 Write a failing test
-//    🟢 Make the test pass
-//    🔵 Refactor your code
-//    - Write production code only to pass a failing unit test.
-//    - Write no more of a unit test than sufficient to fail (compilation failures are failures).
-//    - Write no more production code than necessary to pass the one failing unit test.
+    // 🔴 Write a failing test
+    // 🟢 Make the test pass
+    // 🔵 Refactor your code
+    // - Write production code only to pass a failing unit test.
+    // - Write no more of a unit test than sufficient to fail (compilation failures are failures).
+    // - Write no more production code than necessary to pass the one failing unit test.
 
     "test" {
         "a" shouldBe "a"
