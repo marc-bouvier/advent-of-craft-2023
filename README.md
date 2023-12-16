@@ -87,6 +87,13 @@ A solution proposal will be published here every day during the `Advent Of Craft
 <table>
 <tr>
     <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
+        <a href=https://github.com/marc-bouvier>
+            <img src=https://avatars.githubusercontent.com/u/15436007?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Marc BOUVIER/>
+            <br />
+            <sub style="font-size:14px"><b>Marc BOUVIER</b></sub>
+        </a>
+    </td>
+    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
         <a href=https://github.com/ythirion>
             <img src=https://avatars.githubusercontent.com/u/20967693?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Yoan Thirion/>
             <br />
