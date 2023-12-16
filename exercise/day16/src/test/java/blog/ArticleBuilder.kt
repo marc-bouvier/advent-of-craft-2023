@@ -1,34 +1,30 @@
-package blog;
+package blog
 
-import java.util.HashMap;
-import java.util.Map;
+class ArticleBuilder {
+    private val comments = HashMap<String, String>()
 
-public class ArticleBuilder {
-    public static final String AUTHOR = "Pablo Escobar";
-    public static final String COMMENT_TEXT = "Amazing article !!!";
-    private final HashMap<String, String> comments;
-
-    public ArticleBuilder() {
-        comments = new HashMap<>();
+    fun commented(): ArticleBuilder {
+        comments[COMMENT_TEXT] = AUTHOR
+        return this
     }
 
-    public static ArticleBuilder anArticle() {
-        return new ArticleBuilder();
-    }
-
-    public ArticleBuilder commented() {
-        this.comments.put(COMMENT_TEXT, AUTHOR);
-        return this;
-    }
-
-    public Article build() throws CommentAlreadyExistException {
-        var article = new Article(
-                "Lorem Ipsum",
-                "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
-        );
-        for (Map.Entry<String, String> comment : comments.entrySet()) {
-            article.addComment(comment.getKey(), comment.getValue());
+    @Throws(CommentAlreadyExistException::class)
+    fun build(): Article {
+        val article = Article(
+            "Lorem Ipsum",
+            "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+        )
+        for ((key, value) in comments) {
+            article.addComment(key, value)
         }
-        return article;
+        return article
+    }
+
+    companion object {
+        const val AUTHOR: String = "Pablo Escobar"
+        const val COMMENT_TEXT: String = "Amazing article !!!"
+        fun anArticle(): ArticleBuilder {
+            return ArticleBuilder()
+        }
     }
 }

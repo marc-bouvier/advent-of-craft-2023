@@ -1,73 +1,84 @@
-package blog;
+package blog
 
-import org.assertj.core.api.ThrowingConsumer;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.ThrowingConsumer
+import org.instancio.Instancio
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import java.util.function.Function
 
-import java.util.function.Function;
-
-import static blog.ArticleBuilder.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.instancio.Instancio.create;
-
-class ArticleTests {
-    private Article article;
+internal class ArticleTests {
+    private var article: Article? = null
 
     @Test
-    void should_add_comment_in_an_article() throws CommentAlreadyExistException {
-        when(article -> article.addComment(COMMENT_TEXT, AUTHOR));
-        then(article -> {
-            assertThat(article.getComments()).hasSize(1);
-            assertComment(article.getComments().get(0), COMMENT_TEXT, AUTHOR);
-        });
-    }
-
-    @Test
-    void should_add_comment_in_an_article_containing_already_a_comment() throws Throwable {
-        final var newComment = create(String.class);
-        final var newAuthor = create(String.class);
-
-        when(ArticleBuilder::commented, article -> article.addComment(newComment, newAuthor));
-        then(article -> {
-            assertThat(article.getComments()).hasSize(2);
-            assertComment(article.getComments().getLast(), newComment, newAuthor);
-        });
-    }
-
-    @Nested
-    class Fail {
-        @Test
-        void when__adding_an_existing_comment() throws CommentAlreadyExistException {
-            var article = anArticle()
-                    .commented()
-                    .build();
-
-            assertThatThrownBy(() -> {
-                article.addComment(article.getComments().get(0).text(), article.getComments().get(0).author());
-            }).isInstanceOf(CommentAlreadyExistException.class);
+    @Throws(CommentAlreadyExistException::class)
+    fun should_add_comment_in_an_article() {
+        `when` { article: Article? ->
+            article!!.addComment(
+                ArticleBuilder.Companion.COMMENT_TEXT,
+                ArticleBuilder.Companion.AUTHOR
+            )
+        }
+        then { article: Article? ->
+            Assertions.assertThat(article!!.comments).hasSize(1)
+            assertComment(article.comments[0], ArticleBuilder.Companion.COMMENT_TEXT, ArticleBuilder.Companion.AUTHOR)
         }
     }
 
-    private static void assertComment(Comment comment, String commentText, String author) {
-        assertThat(comment.text()).isEqualTo(commentText);
-        assertThat(comment.author()).isEqualTo(author);
+    @Test
+    @Throws(Throwable::class)
+    fun should_add_comment_in_an_article_containing_already_a_comment() {
+        val newComment = Instancio.create(String::class.java)
+        val newAuthor = Instancio.create(String::class.java)
+
+        `when`(
+            { obj: ArticleBuilder -> obj.commented() },
+            { article: Article? -> article!!.addComment(newComment, newAuthor) })
+        then { article: Article? ->
+            Assertions.assertThat(article!!.comments).hasSize(2)
+            assertComment(article.comments.last, newComment, newAuthor)
+        }
     }
 
-    private void when(ArticleBuilder articleBuilder, ThrowingConsumer<Article> act) throws CommentAlreadyExistException {
-        article = articleBuilder.build();
-        act.accept(article);
+    @Nested
+    internal inner class Fail {
+        @Test
+        @Throws(CommentAlreadyExistException::class)
+        fun when__adding_an_existing_comment() {
+            val article: Article = ArticleBuilder.Companion.anArticle()
+                .commented()
+                .build()
+
+            Assertions.assertThatThrownBy {
+                article.addComment(article.comments[0].text, article.comments[0].author)
+            }.isInstanceOf(CommentAlreadyExistException::class.java)
+        }
     }
 
-    private void when(ThrowingConsumer<Article> act) throws CommentAlreadyExistException {
-        when(anArticle(), act);
+    @Throws(CommentAlreadyExistException::class)
+    private fun `when`(articleBuilder: ArticleBuilder?, act: ThrowingConsumer<Article?>) {
+        article = articleBuilder!!.build()
+        act.accept(article)
     }
 
-    private void when(Function<ArticleBuilder, ArticleBuilder> options, ThrowingConsumer<Article> act) throws Throwable {
-        when(options.apply(anArticle()), act);
+    @Throws(CommentAlreadyExistException::class)
+    private fun `when`(act: ThrowingConsumer<Article?>) {
+        `when`(ArticleBuilder.Companion.anArticle(), act)
     }
 
-    private void then(ThrowingConsumer<Article> act) {
-        act.accept(article);
+    @Throws(Throwable::class)
+    private fun `when`(options: Function<ArticleBuilder, ArticleBuilder?>, act: ThrowingConsumer<Article?>) {
+        `when`(options.apply(ArticleBuilder.Companion.anArticle()), act)
+    }
+
+    private fun then(act: ThrowingConsumer<Article?>) {
+        act.accept(article)
+    }
+
+    companion object {
+        private fun assertComment(comment: Comment, commentText: String, author: String) {
+            Assertions.assertThat(comment.text).isEqualTo(commentText)
+            Assertions.assertThat(comment.author).isEqualTo(author)
+        }
     }
 }
