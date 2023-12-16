@@ -1,5 +1,7 @@
 package blog
 
+import blog.ArticleBuilder.Companion.AUTHOR
+import blog.ArticleBuilder.Companion.COMMENT_TEXT
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.ThrowingConsumer
 import org.instancio.Instancio
@@ -15,13 +17,13 @@ internal class ArticleTests {
     fun should_add_comment_in_an_article() {
         `when` { article: Article? ->
             article!!.addComment(
-                ArticleBuilder.Companion.COMMENT_TEXT,
-                ArticleBuilder.Companion.AUTHOR
+                COMMENT_TEXT,
+                AUTHOR
             )
         }
         then { article: Article? ->
             Assertions.assertThat(article!!.comments).hasSize(1)
-            assertComment(article.comments[0], ArticleBuilder.Companion.COMMENT_TEXT, ArticleBuilder.Companion.AUTHOR)
+            assertComment(article.comments[0], COMMENT_TEXT, AUTHOR)
         }
     }
 
@@ -45,7 +47,7 @@ internal class ArticleTests {
         @Test
         @Throws(CommentAlreadyExistException::class)
         fun when__adding_an_existing_comment() {
-            val article: Article = ArticleBuilder.Companion.anArticle()
+            val article: Article = ArticleBuilder.anArticle()
                 .commented()
                 .build()
 
@@ -63,12 +65,12 @@ internal class ArticleTests {
 
     @Throws(CommentAlreadyExistException::class)
     private fun `when`(act: ThrowingConsumer<Article?>) {
-        `when`(ArticleBuilder.Companion.anArticle(), act)
+        `when`(ArticleBuilder.anArticle(), act)
     }
 
     @Throws(Throwable::class)
     private fun `when`(options: Function<ArticleBuilder, ArticleBuilder?>, act: ThrowingConsumer<Article?>) {
-        `when`(options.apply(ArticleBuilder.Companion.anArticle()), act)
+        `when`(options.apply(ArticleBuilder.anArticle()), act)
     }
 
     private fun then(act: ThrowingConsumer<Article?>) {
