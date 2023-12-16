@@ -18,6 +18,12 @@
         <module>day07</module>
         <module>day08</module>
         <module>day09</module>
+        <module>day10</module>
+        <module>day11</module>
+        <module>day12</module>
+        <module>day13</module>
+        <module>day14</module>
+        <module>day15</module>
     </modules>
 
     <properties>
