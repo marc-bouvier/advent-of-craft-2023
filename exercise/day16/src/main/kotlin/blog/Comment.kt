@@ -1,6 +1,6 @@
-package blog;
+package blog
 
-import java.time.LocalDate;
+import java.time.LocalDate
 
-public record Comment(String text, String author, LocalDate creationDate) {
-}
+@JvmRecord
+data class Comment(val text: String, val author: String, val creationDate: LocalDate)

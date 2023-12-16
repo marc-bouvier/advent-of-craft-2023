@@ -22,8 +22,8 @@ internal class ArticleTests {
             )
         }
         then { article: Article? ->
-            Assertions.assertThat(article!!.comments).hasSize(1)
-            assertComment(article.comments[0], COMMENT_TEXT, AUTHOR)
+            Assertions.assertThat(article!!.getComments()).hasSize(1)
+            assertComment(article.getComments()[0], COMMENT_TEXT, AUTHOR)
         }
     }
 
@@ -37,8 +37,8 @@ internal class ArticleTests {
             { obj: ArticleBuilder -> obj.commented() },
             { article: Article? -> article!!.addComment(newComment, newAuthor) })
         then { article: Article? ->
-            Assertions.assertThat(article!!.comments).hasSize(2)
-            assertComment(article.comments.last, newComment, newAuthor)
+            Assertions.assertThat(article!!.getComments()).hasSize(2)
+            assertComment(article.getComments().last, newComment, newAuthor)
         }
     }
 
@@ -52,7 +52,7 @@ internal class ArticleTests {
                 .build()
 
             Assertions.assertThatThrownBy {
-                article.addComment(article.comments[0].text, article.comments[0].author)
+                article.addComment(article.getComments()[0].text, article.getComments()[0].author)
             }.isInstanceOf(CommentAlreadyExistException::class.java)
         }
     }

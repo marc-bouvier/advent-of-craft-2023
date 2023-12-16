@@ -1,4 +1,3 @@
-package blog;
+package blog
 
-public class CommentAlreadyExistException extends Exception {
-}
+class CommentAlreadyExistException : Exception()

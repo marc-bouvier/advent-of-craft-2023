@@ -1,37 +1,30 @@
-package blog;
+package blog
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate
 
-public class Article {
-    private final String name;
-    private final String content;
-    private final ArrayList<Comment> comments;
+class Article(private val name: String, private val content: String) {
+    private val comments = ArrayList<Comment>()
 
-    public Article(String name, String content) {
-        this.name = name;
-        this.content = content;
-        this.comments = new ArrayList<>();
-    }
-
-    private void addComment(
-            String text,
-            String author,
-            LocalDate creationDate) throws CommentAlreadyExistException {
-        var comment = new Comment(text, author, creationDate);
+    @Throws(CommentAlreadyExistException::class)
+    private fun addComment(
+        text: String,
+        author: String,
+        creationDate: LocalDate
+    ) {
+        val comment = Comment(text, author, creationDate)
 
         if (comments.contains(comment)) {
-            throw new CommentAlreadyExistException();
-        } else comments.add(comment);
+            throw CommentAlreadyExistException()
+        } else comments.add(comment)
     }
 
-    public void addComment(String text, String author) throws CommentAlreadyExistException {
-        addComment(text, author, LocalDate.now());
+    @Throws(CommentAlreadyExistException::class)
+    fun addComment(text: String, author: String) {
+        addComment(text, author, LocalDate.now())
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    fun getComments(): List<Comment> {
+        return comments
     }
 }
 
